@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="/static/js/menu.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Solid Consulting - Cadastro de Empresas</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/solid_icon.png') }}" alt="Solid Consulting" width=90 height=40>
+    <h1>Cadastro de Empresa</h1>
+    <hr>
+    <ul id="nav">
+        <li><a href="#">Empresas</a>
+            <ul>
+                <li><a href="{{ url_for('cadastrar') }}">Cadastrar Empresas</a></li>
+                <li><a href="{{ url_for('listar') }}">Listar/Atualizar Empresas</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Funcionários</a></li>
+    </ul>
+</body>
+</html>

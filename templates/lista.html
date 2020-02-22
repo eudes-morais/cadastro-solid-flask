@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Solid Consulting - Cadastro de Empresas</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/solid_icon.png') }}" alt="Solid Consulting" width=90 height=40>
+    <h1>Lista de Empresas</h1>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th width="350">Razão Social</th>
+                <th width="200">Inscrição Estadual</th>
+                <th width="100">CNPJ</th>
+                <th width="200">Caixa Postal</th>
+                <th>Email</th>
+                <th width="350">CNAE</th>
+            </tr>
+        </thead>
+        {% for empresa in empresas %}
+        <tbody>
+            <tr>
+                <td>{{ empresa.razaosocial }}</td>
+                <td align="center">{{ empresa.inscricaoestadual }}</td align="center">
+                <td align="center">{{ empresa.cnpj }}</td>
+                <td align="center">{{ empresa.caixapostal }}</td align="center">
+                <td>{{ empresa.email }}</td>
+                {% for c in cnae %}
+                    {% if c.idcnae == empresa.cnae %}
+                    <td>{{ c.descricao }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td><a href="{{ url_for('excluir', id=empresa.idempresa) }}" title="Excluir"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+                        <img src="{{ url_for('static', filename='images/delete2.jpg') }}" width="30" height="28" >
+                    </a>
+                    
+                    <a href="{{ url_for('atualizar', id=empresa.idempresa) }}" title="Editar"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+                        <img src="{{ url_for('static', filename='images/edit1.jpg') }}" width="30" height="28" >
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</body>
+<hr>
+<button type="button" ><a href="{{ url_for('index') }}">Voltar</a></button> &emsp;
+<footer>
+    {% set soma = empresas|count() %}
+    {% if soma == 1 %}
+    <h1>Total: {{ soma }} Empresa</h1>
+    {% else %}
+    <h1>Total: {{ soma }} Empresas</h1>
+    {% endif %}
+</footer>
+</html>
