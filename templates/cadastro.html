@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <td>Telefone</td>
-                <td><input type="text" id="telefone" /></td>
+                <td><input type="text" id="telefone" name="telefone" placeholder="(XX) XXXX-XXXX"/></td>
             </tr>
         </table>
         <hr>
@@ -92,7 +92,6 @@
         <hr>
         <input type="submit" value="Cadastrar" /> &emsp; 
         <button type="submit" ><a href="{{ url_for('index') }}">Voltar</a></button> &emsp;
-        <button type="submit" ><a href="{{ url_for('cadastrar') }}">Cadastrar Endereço</a></button> &emsp;
     </form>
 </body>
 </html>
