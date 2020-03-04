@@ -6,7 +6,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
 db = SQLAlchemy(app)
 
-
 #-------------------------------------- Classe Empresa -----------------------------------------------
 class Empresa(db.Model):
     __tablename__ = 'empresa'
@@ -80,11 +79,51 @@ class Telefone(db.Model):
         self.codigo = codigo
         self.descricao = descricao
 
+#-------------------------------------- Classe Funcionário -------------------------------------------
+
+class Funcionario(db.Model):
+    __tablename__ = 'funcionario'
+    idfuncionario = db.Column(db.Integer, primary_key=True)
+    nomefuncionario = db.Column(db.String(150))
+    cpf = db.Column(db.String(11))
+    rg = db.Column(db.String(11))
+    orgaoexpedidor = db.Column(db.String(11))
+    grauinstrucao = db.Column(db.String(25))
+    nacionalidade = db.Column(db.String(40))
+    # datanascimento = db.Column(db.Datetime)
+    estadocivil = db.Column(db.String(10))
+    profissao = db.Column(db.String(50))
+    nomepai = db.Column(db.String(150))
+    nomemae = db.Column(db.String(150))
+    email = db.Column(db.String(50))
+    cargo = db.Column(db.String(50))
+    empresa_func_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
+    empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
+
+    # Método construtor
+    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_func_id):
+        self.nomefuncionario = nomefuncionario
+        self.cpf = cpf
+        self.rg = rg
+        self.orgaoexpedidor = orgaoexpedidor
+        self.grauinstrucao = grauinstrucao
+        self.nacionalidade = nacionalidade
+        # self.datanascimento = datanascimento
+        self.estadocivil = estadocivil
+        self.profissao = profissao
+        self.nomepai = nomepai
+        self.nomemae = nomemae
+        self.email = email
+        self.cargo = cargo
+        self.empresa_func_id = empresa_func_id
+
 # Trabalhando com as rotas
 # Rota para a página inicial
 @app.route("/")
 def index():
     return render_template("index.html")
+
+#----------------------- Funções referentes à EMPRESA --------------------------
 
 # Rota para a página de cadastro 
 @app.route("/cadastrar")
@@ -117,7 +156,6 @@ def cadastro():
 
         # O comando abaixo força a criação do ID no BD
         db.session.flush()
-        print(empresa.idempresa)
 
         empresa_id = empresa.idempresa
         endereco = Endereco(logradouro, complemento, bairro, cidade, estado, cep, empresa_id=empresa.idempresa)
@@ -145,7 +183,7 @@ def excluir(id):
     db.session.commit()
 
     # Repete-se a função LISTAR pois o Flask apresenta 
-    # erro caso não seja feito conforme está abaixo
+    # erro caso não seja feito dessa mameira
     empresas = Empresa.query.all()
     return render_template("lista.html", empresas = empresas, cnae = cnae)
 
@@ -179,7 +217,15 @@ def atualizar(id):
     
     return render_template("atualizar.html", empresa = empresa, cnae = cnae)
 
+#----------------------- Funções referentes ao FUNCIONÁRIO --------------------------
+
+@app.route("/cadastrarFunc")
+def cadastrarFunc():
+    empresas = Empresa.query.all()
+    return render_template("cadastrofuncionario.html", empresas = empresas)
+
 # Executa este arquivo no Flask como sendo o MAIN
 # Evita-se de colocar no final da linha o comando RUN.
 if __name__ == "__main__":
+    # app.run(host='192.168.100.190', debug=False)
     app.run(debug=True)

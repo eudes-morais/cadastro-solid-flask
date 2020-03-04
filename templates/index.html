@@ -20,7 +20,12 @@
                 <li><a href="{{ url_for('listar') }}">Listar/Atualizar Empresas</a></li>
             </ul>
         </li>
-        <li><a href="#">Funcionários</a></li>
+        <li><a href="#">Funcionários</a>
+            <ul>
+                <li><a href="{{ url_for('cadastrarFunc') }}">Cadastrar Funcionários</a></li>
+                <li><a href="{{ url_for('listar') }}">Listar/Atualizar Funcionários</a></li>
+            </ul>
+        </li>
     </ul>
 </body>
 </html>
