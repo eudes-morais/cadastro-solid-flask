@@ -31,7 +31,7 @@
                 <td align="center">{{ empresa.caixapostal }}</td align="center">
                 <td>{{ empresa.email }}</td>
                 {% for c in cnae %}
-                    {% if c.idcnae == empresa.cnae %}
+                    {% if c.idcnae == empresa.cnae_id %}
                     <td>{{ c.descricao }}</td>
                     {% endif %}
                 {% endfor %}

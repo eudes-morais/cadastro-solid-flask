@@ -39,7 +39,7 @@
                     <select name="cnae">
                         <option>-- Selecione uma opção --</option>
                         {% for c in cnae %}
-                            {% if c.idcnae == empresa.cnae %}
+                            {% if c.idcnae == empresa.cnae_id %}
                             <option value="{{ c.idcnae }}" selected>{{ c.codigo }} - {{ c.descricao }}</option>
                             {% else %}
                             <option value="{{ c.idcnae }}" >{{ c.codigo }} - {{ c.descricao }}</option>

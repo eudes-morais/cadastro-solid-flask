@@ -2,120 +2,17 @@ import psycopg2
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
 db = SQLAlchemy(app)
 
-#-------------------------------------- Classe Empresa -----------------------------------------------
-class Empresa(db.Model):
-    __tablename__ = 'empresa'
-    idempresa = db.Column(db.Integer, primary_key=True)
-    razaosocial = db.Column(db.String(150))
-    inscricaoestadual = db.Column(db.String(15))
-    cnpj = db.Column(db.String(14))
-    caixapostal = db.Column(db.String(10))
-    email = db.Column(db.String(50))
-    cnae_id = db.Column(db.Integer)
-
-    # Método construtor
-    def __init__(self, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id):
-        self.razaosocial = razaosocial
-        self.inscricaoestadual = inscricaoestadual
-        self.cnpj = cnpj
-        self.caixapostal = caixapostal
-        self.email = email
-        self.cnae_id = cnae_id
-
-# Caso seja necessário criar o BD
-#db.create_all()
-
-#-------------------------------------- Classe CNAE -----------------------------------------------
-class Cnae(db.Model):
-    __tablename__ = 'cnae'
-    idcnae = db.Column(db.Integer, primary_key=True)
-    codigo = db.Column(db.String(7))
-    descricao = db.Column(db.String(200))
+# Os IMPORTS abaixo devem ficar depois do 'db = SQLAlchemy(app)', para que eles possam ser iniciados na classe
+from classes.cnae import *
+from classes.empresa import *
+from classes.endereco import *
     
-    # Método construtor
-    def __init__(self, codigo, descricao):
-        self.codigo = codigo
-        self.descricao = descricao
 
-#-------------------------------------- Classe Endereço -----------------------------------------------
-class Endereco(db.Model):
-    __tablename__ = 'endereco'
-    idendereco = db.Column(db.Integer, primary_key=True)
-    logradouro = db.Column(db.String(150))
-    complemento = db.Column(db.String(100))
-    bairro = db.Column(db.String(100))
-    cidade = db.Column(db.String(100))
-    estado = db.Column(db.String(20))
-    cep = db.Column(db.String(8))
-    empresa_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
-    empresas = db.relationship('Empresa', backref='enderecos', uselist=False)
-    
-    # Método construtor
-    def __init__(self, logradouro, complemento, bairro, cidade, estado, cep, empresa_id):
-        self.logradouro = logradouro
-        self.complemento = complemento
-        self.bairro = bairro
-        self.cidade = cidade
-        self.estado = estado
-        self.cep = cep
-        self.empresa_id = empresa_id
-
-#-------------------------------------- Classe Telefone -------------------------------------------
-class Telefone(db.Model):
-    __tablename__ = 'telefone'
-    idtelefone = db.Column(db.Integer, primary_key=True)
-    ddd = db.Column(db.Integer)
-    numero = db.Column(db.Integer)
-    empresa = db.Column(db.Integer)
-    funcionario = db.Column(db.Integer)
-    orgao = db.Column(db.Integer)
-    
-    # Método construtor
-    def __init__(self, codigo, descricao):
-        self.codigo = codigo
-        self.descricao = descricao
-
-#-------------------------------------- Classe Funcionário -------------------------------------------
-
-class Funcionario(db.Model):
-    __tablename__ = 'funcionario'
-    idfuncionario = db.Column(db.Integer, primary_key=True)
-    nomefuncionario = db.Column(db.String(150))
-    cpf = db.Column(db.String(11))
-    rg = db.Column(db.String(11))
-    orgaoexpedidor = db.Column(db.String(11))
-    grauinstrucao = db.Column(db.String(25))
-    nacionalidade = db.Column(db.String(40))
-    # datanascimento = db.Column(db.Datetime)
-    estadocivil = db.Column(db.String(10))
-    profissao = db.Column(db.String(50))
-    nomepai = db.Column(db.String(150))
-    nomemae = db.Column(db.String(150))
-    email = db.Column(db.String(50))
-    cargo = db.Column(db.String(50))
-    empresa_func_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
-    empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
-
-    # Método construtor
-    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_func_id):
-        self.nomefuncionario = nomefuncionario
-        self.cpf = cpf
-        self.rg = rg
-        self.orgaoexpedidor = orgaoexpedidor
-        self.grauinstrucao = grauinstrucao
-        self.nacionalidade = nacionalidade
-        # self.datanascimento = datanascimento
-        self.estadocivil = estadocivil
-        self.profissao = profissao
-        self.nomepai = nomepai
-        self.nomemae = nomemae
-        self.email = email
-        self.cargo = cargo
-        self.empresa_func_id = empresa_func_id
 
 # Trabalhando com as rotas
 # Rota para a página inicial
@@ -128,6 +25,7 @@ def index():
 # Rota para a página de cadastro 
 @app.route("/cadastrar")
 def cadastrar():
+    
     cnae = Cnae.query.all()
     return render_template("cadastro.html", cnae = cnae)
 
@@ -189,19 +87,19 @@ def excluir(id):
 
 # Rota para a página de alteração do cadastro. É importante que seja adicionado o
 # método GET em ROUTE para que possa ser trazido as informações que serão alteradas
-@app.route("/atualizar/<int:id>", methods=['GET', 'POST'])
+@app.route("/atualizar/<int:id>", methods=['GET','POST'])
 def atualizar(id):
     cnae = Cnae.query.all()
     empresa = Empresa.query.get(id)
 
-    if request.method == 'POST':
+    if (request.method == 'POST'):
         razaoSocial = request.form.get("razaosocial")
         inscEst = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
         cxPostal = request.form.get("caixapostal")
         email = request.form.get("email")
         cnae = request.form.get("cnae")
-
+    
         # Aqui pode ser criada uma validação para verificar 
         # se algo foi digitado para ser gravado no BD
         empresa.razaosocial = razaoSocial
@@ -209,7 +107,7 @@ def atualizar(id):
         empresa.cnpj = cnpj
         empresa.caixapostal = cxPostal
         empresa.email = email
-        empresa.cnae = cnae
+        empresa.cnae_id = cnae
 
         db.session.commit()
         
@@ -221,7 +119,7 @@ def atualizar(id):
 
 @app.route("/cadastrarFunc")
 def cadastrarFunc():
-    empresas = Empresa.query.all()
+    empresas = Empresas.query.all()
     return render_template("cadastrofuncionario.html", empresas = empresas)
 
 # Executa este arquivo no Flask como sendo o MAIN
