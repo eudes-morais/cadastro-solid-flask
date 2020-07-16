@@ -37,12 +37,12 @@
                 {% endfor %}
                 <td><a href="{{ url_for('excluir', id=empresa.idempresa) }}" title="Excluir"> 
                     <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
-                        <img src="{{ url_for('static', filename='images/delete2.jpg') }}" width="30" height="28" >
+                        <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30" height="28" >
                     </a>
                     
                     <a href="{{ url_for('atualizar', id=empresa.idempresa) }}" title="Editar"> 
                     <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
-                        <img src="{{ url_for('static', filename='images/edit1.jpg') }}" width="30" height="28" >
+                        <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28" >
                     </a>
                 </td>
             </tr>
@@ -57,7 +57,7 @@
     {% if soma == 1 %}
     <h1>Total: {{ soma }} Empresa</h1>
     {% else %}
-    <h1>Total: {{ soma }} Empresas</h1>
+    <h1>Total de empresas: {{ soma }}</h1>
     {% endif %}
 </footer>
 </html>
