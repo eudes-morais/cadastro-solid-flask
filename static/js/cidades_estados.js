@@ -62,23 +62,21 @@ var dgCidadesEstados = function(data) {
     }
 	
     if (data[nome+'Val']) { //preenche estadoVal e cidadeVal se fornecidos na criação do dgCidadesEstados.
-		var options = this[nome].options;
-		if (nome=='estado') this.estado.onchange(); //se tiver preenchido o estado, dá run() pra preencher as cidades
-		for (var j = 0; j<options.length; j++) { //olha cada linha e vê se é a que quer... aí coloca como selected.
-			if (options[j].tagName == 'OPTION') {
-				if (options[j].value == data[nome+'Val']) {
-					options[j].setAttribute('selected',true);
-					if (nome=='estado'){ //esses dois passos são necessários pro IE6!
-						this.estado.selectedIndex=j;
-						this.estado.onchange();
-					}
-				}
-			}
-		}
-	}
-	
+      var options = this[nome].options;
+      if (nome=='estado') this.estado.onchange(); //se tiver preenchido o estado, dá run() pra preencher as cidades
+      for (var j = 0; j<options.length; j++) { //olha cada linha e vê se é a que quer... aí coloca como selected.
+        if (options[j].tagName == 'OPTION') {
+          if (options[j].value == data[nome+'Val']) {
+            options[j].setAttribute('selected',true);
+            if (nome=='estado'){ //esses dois passos são necessários pro IE6!
+              this.estado.selectedIndex=j;
+              this.estado.onchange();
+            }
+          }
+        }
+      }
+    }
   }
-  
 }
 
 dgCidadesEstados.prototype = {

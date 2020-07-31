@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from app import db
 
 #-------------------------------------- Classe Funcionário -------------------------------------------
-
 class Funcionario(db.Model):
     __tablename__ = 'funcionario'
     idfuncionario = db.Column(db.Integer, primary_key=True)
@@ -12,29 +12,30 @@ class Funcionario(db.Model):
     orgaoexpedidor = db.Column(db.String(11))
     grauinstrucao = db.Column(db.String(25))
     nacionalidade = db.Column(db.String(40))
-    # datanascimento = db.Column(db.Datetime)
+    # datanascimento = db.Column(db.String(10))
+    datanascimento = db.Column(db.DateTime)
     estadocivil = db.Column(db.String(10))
     profissao = db.Column(db.String(50))
     nomepai = db.Column(db.String(150))
     nomemae = db.Column(db.String(150))
     email = db.Column(db.String(50))
     cargo = db.Column(db.String(50))
-    empresa_func_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
+    empresa_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
     empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
 
     # Método construtor
-    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_func_id):
+    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_id):
         self.nomefuncionario = nomefuncionario
         self.cpf = cpf
         self.rg = rg
         self.orgaoexpedidor = orgaoexpedidor
         self.grauinstrucao = grauinstrucao
         self.nacionalidade = nacionalidade
-        # self.datanascimento = datanascimento
+        self.datanascimento = datanascimento
         self.estadocivil = estadocivil
         self.profissao = profissao
         self.nomepai = nomepai
         self.nomemae = nomemae
         self.email = email
         self.cargo = cargo
-        self.empresa_func_id = empresa_func_id
+        self.empresa_id = empresa_id

@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>  
     <script language="JavaScript" type="text/javascript" src="/static/js/cidades_estados.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/static/js/menu.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/static/js/lista_estados.js"></script>
     <script language="JavaScript" type="text/javascript" src="/static/js/mask.js"></script>
     <title>Solid Consulting - Cadastro de Empresa</title>
 </head>
@@ -16,7 +16,7 @@
     <img src="{{ url_for('static', filename='images/solid_icon.png') }}" alt="Solid Consulting" width=90 height=40>
     <h1>Cadastro de Funcionário</h1>
     <hr>
-    <form method="POST" action="{{ url_for('cadastro') }}">
+    <form method="POST" action="{{ url_for('cadastroFuncionario') }}">
         <h3>Dados do Funcionário</h3>
         <table>
             <tr>
@@ -33,6 +33,10 @@
             <tr>
                 <td>Nome do Funcionario</td>
                 <td><input type="text" name="nomefuncionario"/></td>
+            </tr>
+            <tr>
+                <td>Nacionalidade</td>
+                <td><input type="text" name="nacionalidade"/></td>
             </tr>
             <tr>
                 <td>CPF</td>
@@ -64,17 +68,11 @@
             </tr>
             <tr>
                 <td>Natural de:</td>
-                <td><select id="estado4"></select> <select id="cidade4"></select></td>
+                <td><select id="estado"></select> - <select id="municipio"></select></td>
             </tr>
-            <script language="JavaScript" type="text/javascript" charset="utf-8">
-                new dgCidadesEstados({
-                  cidade: document.getElementById('cidade4'),
-                  estado: document.getElementById('estado4')
-                })
-            </script>
             <tr>
                 <td>Data de Nascimento</td>
-                <td><input type="text" id="data" name="datanascimento" placeholder="DD/MM/YYYY"/></td>
+                <td><input type="text" id="datanascimento" name="datanascimento" placeholder="DD/MM/YYYY"/></td>
             </tr>
             <tr>
                 <td>Estado Civil</td>
@@ -113,39 +111,36 @@
         <h3>Endereço do Funcionário</h3>
         <table>
             <tr>
+                <td>CEP</td>
+                <td><input type="text" id="cep" name="cep"/></td>
+            </tr>
+            <tr>
                 <td>Logradouro</td>
-                <td><input type="text" name="logradourofuncionario" placeholder="Digite o endereço e o número"/></td>
+                <td><input id="logradouro" type="text" name="logradouro"/></td>
             </tr>
             <tr>
                 <td>Complemento</td>
-                <td><input type="text" name="complementofuncionario" placeholder="Digite o complemento"/></td>
+                <td><input id="complemento" type="text" name="complemento"/></td>
             </tr>
             <tr>
                 <td>Bairro</td>
-                <td><input type="text" name="bairrofuncionario" placeholder="Digite o bairro"/></td>
+                <td><input id="bairro" type="text" name="bairro"/></td>
             </tr>
             <tr>
                 <td>Estado</td>
-                <td><select id="estadofuncionario"></select></td>
+                <td><input id="uf" type="text" name="estado"/></td>
             </tr>
             <tr>
                 <td>Cidade</td>
-                <td><select id="cidadefuncionario"></select></td>
+                <td><input id="cidade" type="text" name="cidade"/></td>
             </tr>
-            <script language="JavaScript" type="text/javascript" charset="utf-8">
-                new dgCidadesEstados({
-                  cidade: document.getElementById('cidadefuncionario'),
-                  estado: document.getElementById('estadofuncionario')
-                })
-            </script>
-            <tr>
-                <td>CEP</td>
-                <td><input type="text" name="cep" placeholder="Somente número"/></td>
-            </tr>
+            <!-- Executa o preenchimento automático do endereço a partir do CEP -->
+            <script language="JavaScript" type="text/javascript" src="/static/js/preenche_endereco.js"></script>
         </table>
         <hr>
         <input type="submit" value="Cadastrar" /> &emsp; 
         <button type="submit" ><a href="{{ url_for('index') }}">Voltar</a></button> &emsp;
     </form>
+    
 </body>
 </html>
