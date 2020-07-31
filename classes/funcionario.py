@@ -20,11 +20,11 @@ class Funcionario(db.Model):
     nomemae = db.Column(db.String(150))
     email = db.Column(db.String(50))
     cargo = db.Column(db.String(50))
-    empresa_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
+    empresafunc_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
     empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
 
     # Método construtor
-    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_id):
+    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresafunc_id):
         self.nomefuncionario = nomefuncionario
         self.cpf = cpf
         self.rg = rg
@@ -38,4 +38,4 @@ class Funcionario(db.Model):
         self.nomemae = nomemae
         self.email = email
         self.cargo = cargo
-        self.empresa_id = empresa_id
+        self.empresafunc_id = empresafunc_id

@@ -12,6 +12,8 @@ CREATE TABLE Empresa (
     caixaPostal varchar(10),
     email varchar(50),
     cnae_id int,
+    telefone1 varchar(15),
+    telefone2 varchar(15),
     FOREIGN KEY (cnae_id) REFERENCES Cnae(idCnae)
 );
 
@@ -25,19 +27,23 @@ CREATE TABLE Funcionario (
     nacionalidade varchar(40),
     dataNascimento date,
     estadoCivil varchar(10),
-    profissão varchar(50),
+    profissao varchar(50),
     nomePai varchar(150),
     nomeMae varchar(150),
     email varchar(50),
     cargo varchar(50),
-    empresa_id int,
-    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa)
+    telefone1 varchar(15),
+    telefone2 varchar(15),
+    empresafunc_id int,
+    FOREIGN KEY (empresafunc_id) REFERENCES Empresa(idEmpresa)
 );
 
 CREATE TABLE OrgaoResponsavel (
     idOrgao serial PRIMARY KEY,
     nome varchar(50),
-    contato varchar(50)
+    contato varchar(50),
+    telefone1 varchar(15),
+    telefone2 varchar(15)
 );
 
 CREATE TABLE EnderecoEmpresa (
@@ -103,18 +109,6 @@ CREATE TABLE Atividade (
     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
 );
 
-CREATE TABLE Telefone (
-    idTelefone serial PRIMARY KEY,
-    ddd int,
-    numero int,
-    empresa_id int,
-    funcionario_id int,
-    orgao_id int,
-    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa),
-    FOREIGN KEY (funcionario_id) REFERENCES Funcionario(idFuncionario),
-    FOREIGN KEY (orgao_id) REFERENCES OrgaoResponsavel(idOrgao)
-);
-
 -- Garantindo TODOS os privilégios para TODAS as tabelas
 GRANT ALL ON SEQUENCE public.atividade_idatividade_seq TO solid;
 
@@ -136,8 +130,6 @@ GRANT ALL ON SEQUENCE public.orgaoresponsavel_idorgao_seq TO solid;
 
 GRANT ALL ON SEQUENCE public.produto_idproduto_seq TO solid;
 
-GRANT ALL ON SEQUENCE public.telefone_idtelefone_seq TO solid;
-
 GRANT ALL ON TABLE public.atividade TO solid;
 
 GRANT ALL ON TABLE public.cnae TO solid;
@@ -157,5 +149,3 @@ GRANT ALL ON TABLE public.licenca TO solid;
 GRANT ALL ON TABLE public.orgaoresponsavel TO solid;
 
 GRANT ALL ON TABLE public.produto TO solid;
-
-GRANT ALL ON TABLE public.telefone TO solid;

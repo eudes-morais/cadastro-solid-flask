@@ -1,9 +1,12 @@
+import os
 import psycopg2
 import datetime
-from flask import Flask, render_template, request, url_for, redirect, jsonify, get_template_attribute
+from flask import Flask, render_template, request, url_for, redirect, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
 db = SQLAlchemy(app)
 
@@ -40,38 +43,55 @@ def cadastrar():
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
     if request.method == 'POST':
+        mensagem = ''
+        alerta = ''
+
         razaoSocial = request.form.get("razaosocial")
         inscEst = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
         cxPostal = request.form.get("caixapostal")
         email = request.form.get("email")
         cnae_id = str(request.form.get("cnae"))
-        telefone = str(request.form.get("telefone"))
+        telefone1 = request.form.get("telefone1")
+        telefone2 = request.form.get("telefone2")
         logradouro = request.form.get("logradouro")
         complemento = request.form.get("complemento")
         bairro = request.form.get("bairro")
         cidade = request.form.get("cidade")
         estado = request.form.get("estado")
         cep = str(request.form.get("cep"))
-
-        # Aqui pode ser criada uma validação para verificar se algo foi digitado para ser gravado no BD
-        empresa = Empresa(razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id)
+        
+        # Construtor da classe EMPRESA
+        empresa = Empresa(razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id, telefone1, telefone2)
         db.session.add(empresa)
-
         # O comando abaixo força a criação do ID no BD
         db.session.flush()
 
+        # 'Captura' o ID da empresa para ser adicionado na tabela ENDERECOEMPRESA
         empresa_id = empresa.idempresa
+
+        # Construtor da classe ENDERECOEMPRESA
         enderecoempresa = EnderecoEmpresa(logradouro, complemento, bairro, cidade, estado, cep, empresa_id=empresa.idempresa)
         db.session.add(enderecoempresa)
         db.session.commit()
         
-        return redirect(url_for("index"))
+        mensagem = "Empresa gravada com sucesso"
+        alerta = "sucess"
+
+        flash(mensagem, alerta)
+        return redirect(url_for("listar"))
+    # Caso não sejapossível gravar
+    mensagem = "Ocorreu uma erro ao gravar a Empresa"
+    alerta = "danger"
+
+    flash(mensagem, alerta)
+    return redirect(url_for("listar"))
+    
 
 # Rota para a página que exibe uma listagem das EMPRESAS
 @app.route("/lista")
 def listar():
-    empresas = Empresa.query.all()
+    empresas = Empresa.query.order_by(Empresa.idempresa).all()
 
     cnae = Cnae.query.all()
     return render_template("lista.html", empresas = empresas, cnae = cnae)
@@ -80,15 +100,27 @@ def listar():
 @app.route("/excluir/<int:id>")
 def excluir(id):
     empresa = Empresa.query.get(id)
+    # enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=empresa.idempresa).first()
+    # print(enderecoempresa)
     cnae = Cnae.query.all()
 
+    # db.session.delete(enderecoempresa)
+    # db.session.flush()
+    # db.session.commit()
+    
     db.session.delete(empresa)
     db.session.commit()
 
     # Repete-se a função LISTAR pois o Flask apresenta 
     # erro caso não seja feito dessa mameira
-    empresas = Empresa.query.all()
-    return render_template("lista.html", empresas = empresas, cnae = cnae)
+    empresas = Empresa.query.order_by(Empresa.idempresa).all()
+
+    mensagem = "Empresa deletada"
+    alerta = "sucess"
+
+    flash(mensagem, alerta)
+    # return render_template("lista.html", empresas = empresas, cnae = cnae)
+    return redirect(url_for("listar"))
 
 # Rota para a página de alteração do cadastro da EMPRESA. 
 # É importante que seja adicionado o método GET em ROUTE para que traga as informações que serão alteradas
@@ -96,6 +128,7 @@ def excluir(id):
 def atualizar(id):
     cnae = Cnae.query.all()
     empresa = Empresa.query.get(id)
+    enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=empresa.idempresa).first()
 
     if (request.method == 'POST'):
         razaoSocial = request.form.get("razaosocial")
@@ -104,20 +137,42 @@ def atualizar(id):
         cxPostal = request.form.get("caixapostal")
         email = request.form.get("email")
         cnae = request.form.get("cnae")
-    
+        telefone1 = request.form.get("telefone1")
+        telefone2 = request.form.get("telefone2")
+        cep = request.form.get("cep")
+        logradouro = request.form.get("logradouro")
+        complemento = request.form.get("complemento")
+        bairro = request.form.get("bairro")
+        estado = request.form.get("estado")
+        cidade = request.form.get("cidade")
+
         # Aqui pode ser criada uma validação para verificar se algo foi digitado para ser gravado no BD
+        # Atualizando no BD as informações da empresa
         empresa.razaosocial = razaoSocial
         empresa.inscricaoestadual = inscEst
         empresa.cnpj = cnpj
         empresa.caixapostal = cxPostal
         empresa.email = email
         empresa.cnae_id = cnae
+        empresa.telefone1 = telefone1
+        empresa.telefone2 = telefone2
+
+        # Um commit para cada tabela
+        db.session.commit()
+
+        # Atualizando no BD as informações do endereço da empresa
+        enderecoempresa.cep = cep
+        enderecoempresa.logradouro = logradouro
+        enderecoempresa.complemento = complemento
+        enderecoempresa.bairro = bairro
+        enderecoempresa.estado = estado
+        enderecoempresa.cidade = cidade
 
         db.session.commit()
         
         return redirect(url_for("listar"))
     
-    return render_template("atualizar.html", empresa = empresa, cnae = cnae)
+    return render_template("atualizar.html", empresa = empresa, cnae = cnae, endempresa = enderecoempresa)
 
 #-------------------------------------------------------------------------------
 #--------------------------- ROTAS DO FUNCIONÁRIO ------------------------------
@@ -133,7 +188,7 @@ def cadastrarFuncionario():
 @app.route("/cadastrofuncionario", methods=['POST'])
 def cadastroFuncionario():
     if request.method == 'POST':
-        empresa_id = request.form.get("empresa")
+        empresafunc_id = request.form.get("empresa")
         nomefuncionario = request.form.get("nomefuncionario")
         nacionalidade = request.form.get("nacionalidade")
         cpf = str(request.form.get("cpf"))
@@ -141,7 +196,6 @@ def cadastroFuncionario():
         orgaoexpedidor = request.form.get("orgaoexpedidor")
         grauinstrucao = request.form.get("grauinstrucao")
         datanascimento = datetime.strptime(request.form.get("datanascimento"), '%d/%m/%Y')
-        print(datanascimento)
         estadocivil = request.form.get("estadocivil")
         profissao = request.form.get("profissao")
         nomepai = request.form.get("nomepai")
@@ -158,7 +212,7 @@ def cadastroFuncionario():
 
         # Aqui pode ser criada uma validação para verificar 
         # se algo foi digitado para ser gravado no BD
-        funcionario = Funcionario(nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_id)
+        funcionario = Funcionario(nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresafunc_id)
         db.session.add(funcionario)
 
         # O comando abaixo força a criação do ID no BD
@@ -230,4 +284,5 @@ def listaFuncionarios():
 # Evita-se de colocar no final da linha o comando RUN.
 if __name__ == "__main__":
     # app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
+    
     app.run(debug=True)

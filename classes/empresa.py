@@ -11,17 +11,19 @@ class Empresa(db.Model):
     caixapostal = db.Column(db.String(10))
     email = db.Column(db.String(50))
     cnae_id = db.Column(db.Integer)
+    telefone1 = db.Column(db.String(15))
+    telefone2 = db.Column(db.String(15))
 
     # Método construtor
-    def __init__(self, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id):
+    def __init__(self, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id, telefone1, telefone2):
         self.razaosocial = razaosocial
         self.inscricaoestadual = inscricaoestadual
         self.cnpj = cnpj
         self.caixapostal = caixapostal
         self.email = email
         self.cnae_id = cnae_id
+        self.telefone1 = telefone1
+        self.telefone2 = telefone2
 
 # Caso seja necessário criar o BD
 #db.create_all()
-
-
