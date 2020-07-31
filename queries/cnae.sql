@@ -1328,4 +1328,8 @@ INSERT INTO CNAE VALUES (1327,'9609206','Serviços de tatuagem e colocação de 
 INSERT INTO CNAE VALUES (1328,'9609207','Alojamento de animais domésticos');
 INSERT INTO CNAE VALUES (1329,'9609208','Higiene e embelezamento de animais domésticos');
 INSERT INTO CNAE VALUES (1330,'9609299','Outras atividades de serviços pessoais não especificadas anteriormente');
+<<<<<<< HEAD
 INSERT INTO CNAE VALUES (1331,'9700500','Serviços domésticos');
+=======
+INSERT INTO CNAE VALUES (1331,'9700500','Serviços domésticos');
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c

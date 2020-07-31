@@ -20,11 +20,19 @@ class Funcionario(db.Model):
     nomemae = db.Column(db.String(150))
     email = db.Column(db.String(50))
     cargo = db.Column(db.String(50))
+<<<<<<< HEAD
     empresafunc_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
     empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
 
     # Método construtor
     def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresafunc_id):
+=======
+    empresa_id = db.Column(db.Integer, db.ForeignKey('empresa.idempresa'))
+    empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
+
+    # Método construtor
+    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo, empresa_id):
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c
         self.nomefuncionario = nomefuncionario
         self.cpf = cpf
         self.rg = rg
@@ -38,4 +46,8 @@ class Funcionario(db.Model):
         self.nomemae = nomemae
         self.email = email
         self.cargo = cargo
+<<<<<<< HEAD
         self.empresafunc_id = empresafunc_id
+=======
+        self.empresa_id = empresa_id
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c

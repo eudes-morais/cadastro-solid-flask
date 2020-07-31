@@ -33,11 +33,21 @@
                 <td align="center">{{ funcionario.cpf }}</td>
                 <td align="center">{{ funcionario.rg }}</td align="center">
                 <td>{{ funcionario.email }}</td>
+<<<<<<< HEAD
                 <td><a href="{{ url_for('excluir', id=funcionario.idfuncionario) }}" title="Excluir">
                         <img src="{{ url_for('static', filename='images/delete2.jpg') }}" width="30" height="28" >
                     </a>
                     
                     <a href="{{ url_for('atualizar', id=funcionario.idfuncionario) }}" title="Editar">
+=======
+                <td><a href="{{ url_for('excluir', id=funcionario.idfuncionario) }}" title="Excluir"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+                        <img src="{{ url_for('static', filename='images/delete2.jpg') }}" width="30" height="28" >
+                    </a>
+                    
+                    <a href="{{ url_for('atualizar', id=funcionario.idfuncionario) }}" title="Editar"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c
                         <img src="{{ url_for('static', filename='images/edit1.jpg') }}" width="30" height="28" >
                     </a>
                 </td>

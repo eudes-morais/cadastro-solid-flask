@@ -45,6 +45,7 @@
                     </div>
                     {% endfor %}
                     {% endif %}
+<<<<<<< HEAD
                     {% endwith %}
 
                     <table class="table table-hover table-dark">
@@ -218,8 +219,26 @@
             </div>
         </div>
     </div>
+=======
+                {% endfor %}
+                <td><a href="{{ url_for('excluir', id=empresa.idempresa) }}" title="Excluir"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+                        <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30" height="28" >
+                    </a>
+                    
+                    <a href="{{ url_for('atualizar', id=empresa.idempresa) }}" title="Editar"> 
+                    <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
+                        <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28" >
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c
 </body>
 <footer>
+<<<<<<< HEAD
     <div class="inner ml-3 mb-3">
         <nav class="navbar navbar-expand-sm justify-content-between">
             {% set soma = empresas|count() %}
@@ -232,6 +251,14 @@
             <a href="{{ url_for('index') }}" class="btn btn-primary">Voltar</a>
         </nav>    
     </div>
+=======
+    {% set soma = empresas|count() %}
+    {% if soma == 1 %}
+    <h1>Total: {{ soma }} Empresa</h1>
+    {% else %}
+    <h1>Total de empresas: {{ soma }}</h1>
+    {% endif %}
+>>>>>>> 1040a0e5fae20b9267a570f7fa7a715388333e3c
 </footer>
 
 </html>

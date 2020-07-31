@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>  
+    <script language="JavaScript" type="text/javascript" src="/static/js/cidades_estados.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/static/js/lista_estados.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/static/js/mask.js"></script>
+    <title>Solid Consulting - Cadastro de Empresa</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/solid_icon.png') }}" alt="Solid Consulting" width=90 height=40>
+    <h1>Cadastro de Funcionário</h1>
+    <hr>
+    <form method="POST" action="{{ url_for('cadastroFuncionario') }}">
+        <h3>Dados do Funcionário</h3>
+        <table>
+            <tr>
+                <td>Empresa a qual pertence</td>
+                <td>
+                    <select name="empresa">
+                        <option>-- Selecione a Empresa --</option>
+                        {% for e in empresas %}
+                        <option value="{{ e.idempresa }}">{{ e.cnpj }} - {{ e.razaosocial }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Nome do Funcionario</td>
+                <td><input type="text" name="nomefuncionario"/></td>
+            </tr>
+            <tr>
+                <td>Nacionalidade</td>
+                <td><input type="text" name="nacionalidade"/></td>
+            </tr>
+            <tr>
+                <td>CPF</td>
+                <td><input type="text" name="cpf" placeholder="Somente números"/></td>
+            </tr>
+            <tr>
+                <td>Identidade</td>
+                <td><input type="text" name="identidade" placeholder="Somente números"/></td>
+            </tr>
+            <tr>
+                <td>Órgão Expedidor</td>
+                <td><input type="text" name="orgaoexpedidor"/></td>
+            </tr>
+            <tr>
+                <td>Grau de Instrução</td>
+                <td>
+                    <select name="grauinstrucao">
+                        <option>-- Selecione uma opção --</option>
+                        <option value="Ensino Fundamental">Ensino Fundamental</option>
+                        <option value="Ensino Médio">Ensino Médio</option>
+                        <option value="Pós Médio">Pós Médio</option>
+                        <option value="Ensino Superior">Ensino Superior</option>
+                        <option value="Pós Graduação">Pós Graduação</option>
+                        <option value="Mestrado">Mestrado</option>
+                        <option value="Doutorado">Doutorado</option>
+                        <option value="Pós Doutorado">Pós Doutorado</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Natural de:</td>
+                <td><select id="estado"></select> - <select id="municipio"></select></td>
+            </tr>
+            <tr>
+                <td>Data de Nascimento</td>
+                <td><input type="text" id="datanascimento" name="datanascimento" placeholder="DD/MM/YYYY"/></td>
+            </tr>
+            <tr>
+                <td>Estado Civil</td>
+                <td>
+                    <select name="estadocivil">
+                        <option>-- Selecione uma opção --</option>
+                        <option value="Solteiro">Solteiro</option>
+                        <option value="Casado">Casado</option>
+                        <option value="Divorciado">Divorciado</option>
+                        <option value="Viúvo">Viúvo</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Profissão</td>
+                <td><input type="text" name="profissao"/></td>
+            </tr>
+            <tr>
+                <td>Filiação: </td>
+                <td><input type="text" name="nomepai"placeholder="Nome do Pai"/> e <input type="text" name="nomemae"placeholder="Nome da Mãe"/></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="emailfuncionario"/></td>
+            </tr>
+            <tr>
+                <td>Cargo</td>
+                <td><input type="text" name="cargo"/></td>
+            </tr>
+            <tr>
+                <td>Telefone</td>
+                <td><input type="text" id="celular" name="telefone" placeholder="(XX) XXXXX-XXXX"/></td>
+            </tr>
+        </table>
+        <hr>
+        <h3>Endereço do Funcionário</h3>
+        <table>
+            <tr>
+                <td>CEP</td>
+                <td><input type="text" id="cep" name="cep"/></td>
+            </tr>
+            <tr>
+                <td>Logradouro</td>
+                <td><input id="logradouro" type="text" name="logradouro"/></td>
+            </tr>
+            <tr>
+                <td>Complemento</td>
+                <td><input id="complemento" type="text" name="complemento"/></td>
+            </tr>
+            <tr>
+                <td>Bairro</td>
+                <td><input id="bairro" type="text" name="bairro"/></td>
+            </tr>
+            <tr>
+                <td>Estado</td>
+                <td><input id="uf" type="text" name="estado"/></td>
+            </tr>
+            <tr>
+                <td>Cidade</td>
+                <td><input id="cidade" type="text" name="cidade"/></td>
+            </tr>
+            <!-- Executa o preenchimento automático do endereço a partir do CEP -->
+            <script language="JavaScript" type="text/javascript" src="/static/js/preenche_endereco.js"></script>
+        </table>
+        <hr>
+        <input type="submit" value="Cadastrar" /> &emsp; 
+        <button type="submit" ><a href="{{ url_for('index') }}">Voltar</a></button> &emsp;
+    </form>
+    
+</body>
+</html>
