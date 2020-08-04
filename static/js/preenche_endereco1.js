@@ -1,4 +1,4 @@
-$('#cep')
+$('#cep1')
     .focusout(function(){
         //Início do Comando AJAX
         $.ajax({
@@ -10,28 +10,28 @@ $('#cep')
             success: function(resposta){
                 // Retorno da função SUCESS
                 if(!resposta.erro){
-                    $("#logradouro").val(resposta.logradouro);
-                    $("#complemento").val(resposta.complemento);
-                    $("#bairro").val(resposta.bairro);
-                    $("#cidade").val(resposta.localidade);
-                    $("#uf").val(resposta.uf);
+                    $("#logradouro1").val(resposta.logradouro);
+                    $("#complemento1").val(resposta.complemento);
+                    $("#bairro1").val(resposta.bairro);
+                    $("#cidade1").val(resposta.localidade);
+                    $("#uf1").val(resposta.uf);
                 } else{
                     alert("CEP INVÁLIDO");
-                    $("#logradouro").val('');
-                    $("#complemento").val('');
-                    $("#bairro").val('');
-                    $("#cidade").val('');
-                    $("#uf").val('');
+                    $("#logradouro1").val('');
+                    $("#complemento1").val('');
+                    $("#bairro1").val('');
+                    $("#cidade1").val('');
+                    $("#uf1").val('');
                 }
                 // $("#numero").focus();
             },
             error: function() {
                 alert("CEP INVÁLIDO");
-                $("#logradouro").val('');
-                $("#complemento").val('');
-                $("#bairro").val('');
-                $("#cidade").val('');
-                $("#uf").val('');
+                $("#logradouro1").val('');
+                $("#complemento1").val('');
+                $("#bairro1").val('');
+                $("#cidade1").val('');
+                $("#uf1").val('');
             }
         });
     });

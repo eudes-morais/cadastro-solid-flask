@@ -93,32 +93,26 @@ def cadastro():
 def listar():
     empresas = Empresa.query.order_by(Empresa.idempresa).all()
     cnae = Cnae.query.all()
-    return render_template("lista.html", empresas = empresas, cnae = cnae)
+    enderecoempresa = EnderecoEmpresa.query.all()
+    return render_template("lista.html", empresas = empresas, cnae = cnae, enderecoempresa = enderecoempresa)
 
 # Rota para exclusão de uma EMPRESA existente
 @app.route("/excluir/<int:id>")
 def excluir(id):
     empresa = Empresa.query.get(id)
-    # enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=empresa.idempresa).first()
-    # print(enderecoempresa)
-    cnae = Cnae.query.all()
-
-    # db.session.delete(enderecoempresa)
-    # db.session.flush()
-    # db.session.commit()
+    enderecoempresa = EnderecoEmpresa.query.get(empresa.idempresa)
+    
+    db.session.delete(enderecoempresa)
+    db.session.commit()
     
     db.session.delete(empresa)
     db.session.commit()
-
-    # Repete-se a função LISTAR pois o Flask apresenta 
-    # erro caso não seja feito dessa mameira
-    empresas = Empresa.query.order_by(Empresa.idempresa).all()
 
     mensagem = "Empresa deletada"
     alerta = "sucess"
 
     flash(mensagem, alerta)
-    # return render_template("lista.html", empresas = empresas, cnae = cnae)
+   
     return redirect(url_for("listar"))
 
 # Rota para a página de alteração do cadastro da EMPRESA. 
@@ -127,7 +121,9 @@ def excluir(id):
 def atualizar(id):
     cnae = Cnae.query.all()
     empresa = Empresa.query.get(id)
-    enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=empresa.idempresa).first()
+    idenderecoempresa = empresa.idempresa
+    # enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=empresa.idempresa).first()
+    enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
 
     if (request.method == 'POST'):
         razaoSocial = request.form.get("razaosocial")
@@ -168,6 +164,11 @@ def atualizar(id):
         enderecoempresa.cidade = cidade
 
         db.session.commit()
+
+        mensagem = "Empresa atualizada"
+        alerta = "info"
+
+        flash(mensagem, alerta)
         
         return redirect(url_for("listar"))
     
@@ -282,5 +283,6 @@ def listaFuncionarios():
 # Executa este arquivo no Flask como sendo o MAIN
 # Evita-se de colocar no final da linha o comando RUN.
 if __name__ == "__main__":
-    # app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
-    app.run(debug=True)
+    app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
+    # app.run(host='192.168.0.105', debug=True) # Para se testar dentro da empresa
+    # app.run(debug=True)

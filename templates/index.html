@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <meta charset="UTF-8">
     <title>Solid Consulting</title>
 </head>
 <body>
     <div class="d-flex justify-content-center align-items-center border border-light p-5" style="height: 500px;">
-        <img src="/static/images/solid_icon.png" class="img-fluid" width="650" height="550" alt="">
+        <img src="/static/images/solid_icon.jpg" class="img-fluid" width="650" height="550" alt="">
     </div>
     <!-- <div class="inner">
         <nav class="navbar navbar-expand-sm justify-content-center">
@@ -27,8 +31,8 @@
         </nav>
     </div> -->
     <div class="d-flex justify-content-center align-items-center ">
-        <a class="btn btn-outline-dark btn-lg col-md-2 ml-3" href="{{ url_for('listar') }}">Empresas</a>
-        <a class="btn btn-outline-dark btn-lg col-md-2 ml-3" href="{{ url_for('listaFuncionarios') }}">Funcionários</a>
+        <a class="btn btn-outline-primary btn-lg col-md-2 ml-3" href="{{ url_for('listar') }}">Empresas</a>
+        <a class="btn btn-outline-primary btn-lg col-md-2 ml-3" href="{{ url_for('listaFuncionarios') }}">Funcionários</a>
     </div>
 </body>
 <footer>

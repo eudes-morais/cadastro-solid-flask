@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Solid Consulting - Cadastro de Empresas</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/solid_icon.png') }}" alt="Solid Consulting" width=90 height=40>
+    <h1>Lista de Funcionários</h1>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th width="350">Empresa</th>
+                <th width="350">Funcionário</th>
+                <th width="100">CPF</th>
+                <th width="200">Identidade</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        {% for funcionario in funcionarios %}
+        <tbody>
+            <tr>
+                {% for empresa in empresas %}
+                    {% if empresa.id == funcionario.empresa_id %}
+                    <td>{{ empresa.razaosocial }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ funcionario. nomefuncionario}}</td align="center">
+                <td align="center">{{ funcionario.cpf }}</td>
+                <td align="center">{{ funcionario.rg }}</td align="center">
+                <td>{{ funcionario.email }}</td>
+                <td><a href="{{ url_for('excluir', id=funcionario.idfuncionario) }}" title="Excluir">
+                        <img src="{{ url_for('static', filename='images/delete2.jpg') }}" width="30" height="28" >
+                    </a>
+                    <a href="{{ url_for('atualizar', id=funcionario.idfuncionario) }}" title="Editar">
+                        <img src="{{ url_for('static', filename='images/edit1.jpg') }}" width="30" height="28" >
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</body>
+<hr>
+<button type="button" ><a href="{{ url_for('index') }}">Voltar</a></button> &emsp;
+<footer>
+    {% set soma = funcionarios|count() %}
+    {% if soma == 1 %}
+    <h1>Total: {{ soma }} Funcionário</h1>
+    {% else %}
+    <h1>Total: {{ soma }} Funcionários</h1>
+    {% endif %}
+</footer>
+</html>
