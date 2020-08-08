@@ -4,6 +4,7 @@ import datetime
 from flask import Flask, render_template, request, url_for, redirect, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
+from flask_paginate import Pagination
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -40,12 +41,12 @@ def cadastrar():
     # return render_template("cadastro.html")
 
 # Rota para carregar as informações digitadas na página de cadastro da EMPRESA
-@app.route("/cadastro", methods=['POST'])
+@app.route("/cadastro", methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
-        mensagem = ''
-        alerta = ''
-
+        # mensagem = ''
+        # alerta = ''
+        numeropasta = request.form.get("numeropasta")
         razaoSocial = request.form.get("razaosocial")
         inscEst = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
@@ -62,7 +63,7 @@ def cadastro():
         cep = str(request.form.get("cep"))
         
         # Construtor da classe EMPRESA
-        empresa = Empresa(razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id, telefone1, telefone2)
+        empresa = Empresa(numeropasta, razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id, telefone1, telefone2)
         db.session.add(empresa)
         # O comando abaixo força a criação do ID no BD
         db.session.flush()
@@ -76,28 +77,37 @@ def cadastro():
         db.session.commit()
         
         mensagem = "Empresa gravada com sucesso"
-        alerta = "sucess"
+        alerta = "success"
 
         flash(mensagem, alerta)
         return redirect(url_for("listar"))
-    # Caso não sejapossível gravar
-    mensagem = "Ocorreu uma erro ao gravar a Empresa"
-    alerta = "danger"
+    # Caso não seja possível gravar
+    # mensagem = "Ocorreu uma erro ao gravar a Empresa"
+    # alerta = "danger"
 
-    flash(mensagem, alerta)
-    return redirect(url_for("listar"))
+    # flash(mensagem, alerta)
+    # return redirect(url_for("listar"))
     
 
 # Rota para a página que exibe uma listagem das EMPRESAS
 @app.route("/lista")
 def listar():
-    empresas = Empresa.query.order_by(Empresa.idempresa).all()
+    limit = 10
+    empresas = Empresa.query.order_by(Empresa.numeropasta).all()
     cnae = Cnae.query.all()
     enderecoempresa = EnderecoEmpresa.query.all()
-    return render_template("lista.html", empresas = empresas, cnae = cnae, enderecoempresa = enderecoempresa)
+
+    page = int(request.args.get("page", 1))
+    start = (page - 1) * limit
+    end = page * limit if len(empresas) > page * limit else len(empresas)
+    paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4', record_name = 'Empresas')
+    pageEmpresas = Empresa.query.order_by(Empresa.numeropasta).slice(start, end)
+    # pagination = Pagination(page=page, total=len(empresas), per_page=per_page, css_framework='bootstrap4')
+    return render_template("lista.html", empresas = pageEmpresas, cnae = cnae, 
+                            enderecoempresa = enderecoempresa, pagination=paginate)
 
 # Rota para exclusão de uma EMPRESA existente
-@app.route("/excluir/<int:id>")
+@app.route("/excluir/<int:id>", methods = ['GET', 'POST'])
 def excluir(id):
     empresa = Empresa.query.get(id)
     enderecoempresa = EnderecoEmpresa.query.get(empresa.idempresa)
@@ -109,10 +119,9 @@ def excluir(id):
     db.session.commit()
 
     mensagem = "Empresa deletada"
-    alerta = "sucess"
+    alerta = "success"
 
     flash(mensagem, alerta)
-   
     return redirect(url_for("listar"))
 
 # Rota para a página de alteração do cadastro da EMPRESA. 
@@ -126,8 +135,9 @@ def atualizar(id):
     enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
 
     if (request.method == 'POST'):
+        numeropasta = request.form.get("numeropasta")
         razaoSocial = request.form.get("razaosocial")
-        inscEst = request.form.get("inscricaoestadual")
+        inscestadual = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
         cxPostal = request.form.get("caixapostal")
         email = request.form.get("email")
@@ -143,8 +153,9 @@ def atualizar(id):
 
         # Aqui pode ser criada uma validação para verificar se algo foi digitado para ser gravado no BD
         # Atualizando no BD as informações da empresa
+        empresa.numeropasta = numeropasta
         empresa.razaosocial = razaoSocial
-        empresa.inscricaoestadual = inscEst
+        empresa.inscricaoestadual = inscestadual
         empresa.cnpj = cnpj
         empresa.caixapostal = cxPostal
         empresa.email = email
@@ -172,7 +183,11 @@ def atualizar(id):
         
         return redirect(url_for("listar"))
     
-    return render_template("atualizar.html", empresa = empresa, cnae = cnae, endempresa = enderecoempresa)
+    mensagem = "Ocorreu um erro ao atualizar a Empresa"
+    alerta = "danger"
+    
+    # return render_template("atualizar.html", empresa = empresa, cnae = cnae, endempresa = enderecoempresa)
+    return redirect(url_for("listar"))
 
 #-------------------------------------------------------------------------------
 #--------------------------- ROTAS DO FUNCIONÁRIO ------------------------------
@@ -283,6 +298,6 @@ def listaFuncionarios():
 # Executa este arquivo no Flask como sendo o MAIN
 # Evita-se de colocar no final da linha o comando RUN.
 if __name__ == "__main__":
-    app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
+    # app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
     # app.run(host='192.168.0.105', debug=True) # Para se testar dentro da empresa
-    # app.run(debug=True)
+    app.run(debug=True)

@@ -5,7 +5,7 @@ from app import db
 class Empresa(db.Model):
     __tablename__ = 'empresa'
     idempresa = db.Column(db.Integer, primary_key=True)
-    numeroficha = db.Column(db.Integer)
+    numeropasta = db.Column(db.Integer)
     razaosocial = db.Column(db.String(150))
     inscricaoestadual = db.Column(db.String(15))
     cnpj = db.Column(db.String(14))
@@ -16,8 +16,8 @@ class Empresa(db.Model):
     telefone2 = db.Column(db.String(15))
 
     # Método construtor
-    def __init__(self, numeroficha, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id, telefone1, telefone2):
-        self.numeroficha = numeroficha
+    def __init__(self, numeropasta, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id, telefone1, telefone2):
+        self.numeropasta = numeropasta
         self.razaosocial = razaosocial
         self.inscricaoestadual = inscricaoestadual
         self.cnpj = cnpj

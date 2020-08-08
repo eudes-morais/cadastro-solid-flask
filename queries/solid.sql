@@ -6,7 +6,7 @@ CREATE TABLE Cnae (
 
 CREATE TABLE Empresa (
     idEmpresa serial PRIMARY KEY,
-    numeroficha int,
+    numeropasta int,
     razaoSocial varchar(150),
     inscricaoEstadual varchar(15),
     cnpj varchar(14) not null,
