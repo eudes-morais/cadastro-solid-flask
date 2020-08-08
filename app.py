@@ -100,10 +100,10 @@ def listar():
     page = int(request.args.get("page", 1))
     start = (page - 1) * limit
     end = page * limit if len(empresas) > page * limit else len(empresas)
-    paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4', record_name = 'Empresas')
+    paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4')
     pageEmpresas = Empresa.query.order_by(Empresa.numeropasta).slice(start, end)
     # pagination = Pagination(page=page, total=len(empresas), per_page=per_page, css_framework='bootstrap4')
-    return render_template("lista.html", empresas = pageEmpresas, cnae = cnae, 
+    return render_template("lista.html", empresas = pageEmpresas, cnae = cnae, start=start + 1, end=end,
                             enderecoempresa = enderecoempresa, pagination=paginate)
 
 # Rota para exclusão de uma EMPRESA existente

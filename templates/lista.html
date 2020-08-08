@@ -328,7 +328,11 @@
             </div>
         <!-- </div> -->
     </div>
-    {{ pagination.info }}
-    {{ pagination.links }}
+    <div class="inner">
+        <nav class="navbar navbar-expand-sm justify-content-around">
+            <h3>Exibindo de {{ start }} a {{ end }} empresas. Total {{ pagination.total }} Empresas</h3>
+            {{ pagination.links }}
+        </nav>
+    </div>    
 </body>
 </html>
