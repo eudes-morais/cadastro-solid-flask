@@ -26,6 +26,8 @@ CREATE TABLE Funcionario (
     orgaoExpedidor varchar(11),
     grauInstrucao varchar(25),
     nacionalidade varchar(40),
+    uf varchar(100)
+    municipio varchar(100),
     dataNascimento date,
     estadoCivil varchar(10),
     profissao varchar(50),
@@ -35,6 +37,8 @@ CREATE TABLE Funcionario (
     cargo varchar(50),
     telefone1 varchar(15),
     telefone2 varchar(15),
+    estado varchar(20),
+    cidade varchar(100)
     empresafunc_id int,
     FOREIGN KEY (empresafunc_id) REFERENCES Empresa(idEmpresa)
 );
@@ -110,6 +114,13 @@ CREATE TABLE Atividade (
     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
 );
 
+CREATE TABLE Estado (
+    idEstado serial PRIMARY KEY,
+    codigo int,
+    sigla varchar(2),
+    nome varchar(20)
+);
+
 -- Garantindo TODOS os privilégios para TODAS as tabelas
 GRANT ALL ON SEQUENCE public.atividade_idatividade_seq TO solid;
 
@@ -131,6 +142,8 @@ GRANT ALL ON SEQUENCE public.orgaoresponsavel_idorgao_seq TO solid;
 
 GRANT ALL ON SEQUENCE public.produto_idproduto_seq TO solid;
 
+GRANT ALL ON SEQUENCE public.estado_idestado_seq TO solid;
+
 GRANT ALL ON TABLE public.atividade TO solid;
 
 GRANT ALL ON TABLE public.cnae TO solid;
@@ -150,3 +163,5 @@ GRANT ALL ON TABLE public.licenca TO solid;
 GRANT ALL ON TABLE public.orgaoresponsavel TO solid;
 
 GRANT ALL ON TABLE public.produto TO solid;
+
+GRANT ALL ON TABLE public.estado TO solid;

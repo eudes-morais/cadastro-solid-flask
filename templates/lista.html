@@ -24,6 +24,7 @@
 
 <body>
     <div class="inner">
+        <!-- Note: Internet Explorer 10 and earlier versions do not support the justify-content property. -->
         <nav class="navbar navbar-expand-sm justify-content-between">
             <h1><p class="text-center">Empresas</p></h1>
             <a class="navbar-brand" href="#">
@@ -81,17 +82,18 @@
                                 <td align="center">{{ empresa.cnpj }}</td>
                                 <td>{{ empresa.email }}</td>
                                 {% for c in cnae %}
-                                {% if c.idcnae == empresa.cnae_id %}
-                                <td>{{ c.descricao }}</td>
-                                {% endif %}
+                                    {% if c.idcnae == empresa.cnae_id %}
+                                        <td>{{ c.descricao }}</td>
+                                        {{ break }}
+                                    {% endif %}
                                 {% endfor %}
                                 <td>
-                                    <a href="{{ url_for('atualizar', id=empresa.idempresa) }}" class="btn btn-outline-warning btn-xs" title="Editar"
+                                    <a href="{{ url_for('empresa_page.atualizar', id=empresa.idempresa) }}" class="btn btn-outline-warning btn-xs" title="Editar"
                                     data-toggle="modal" data-target="#modaledit{{empresa.idempresa}}">
                                         <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30"
                                             height="28">
                                     </a>
-                                    <a href="{{ url_for('excluir', id=empresa.idempresa) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
+                                    <a href="{{ url_for('empresa_page.excluir', id=empresa.idempresa) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
                                     onclick="return confirm('Deseja realmente excluir {{ empresa.razaosocial }}?')">
                                         <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
                                         <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30"
@@ -109,7 +111,7 @@
                                         <h4 class="modal-title">Atualizando a Empresa</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ url_for('atualizar', id=empresa.idempresa) }}" method="POST">
+                                        <form action="{{ url_for('empresa_page.atualizar', id=empresa.idempresa) }}" method="POST">
                                             <div class="form-row">
                                                 <input type="hidden" name="id" value="{{empresa.idempresa}}">
                                                 <div class="form-group col-sm-4">
@@ -235,7 +237,7 @@
                                 <h4 class="modal-title">Nova Empresa</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="{{url_for('cadastro')}}" method="POST">
+                                <form action="{{url_for('empresa_page.cadastro')}}" method="POST">
                                     <div class="form-row">
                                         <div class="form-group col-sm-4">
                                             <label>Número da Pasta</label>
@@ -328,11 +330,16 @@
             </div>
         <!-- </div> -->
     </div>
-    <div class="inner">
-        <nav class="navbar navbar-expand-sm justify-content-around">
+    <div class="form-row align-itens-center ml-3">
+        <div class="col-md-6">
             <h3>Exibindo de {{ start }} a {{ end }} empresas. Total {{ pagination.total }} Empresas</h3>
+        </div>
+        <div class="col-md-4">
             {{ pagination.links }}
-        </nav>
-    </div>    
+        </div>
+        <div class="col-md-2">
+            <a href="{{ url_for('index_page.index') }}" class="btn btn-primary">Voltar</a>
+        </div>    
+    </div>
 </body>
 </html>

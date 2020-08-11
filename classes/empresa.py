@@ -16,7 +16,8 @@ class Empresa(db.Model):
     telefone2 = db.Column(db.String(15))
 
     # Método construtor
-    def __init__(self, numeropasta, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id, telefone1, telefone2):
+    def __init__(self, numeropasta, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id,
+                    telefone1, telefone2):
         self.numeropasta = numeropasta
         self.razaosocial = razaosocial
         self.inscricaoestadual = inscricaoestadual
