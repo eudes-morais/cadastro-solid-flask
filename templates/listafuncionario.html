@@ -14,9 +14,9 @@
         crossorigin="anonymous"></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-    
     <script src="/static/js/mask.js"></script>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Solid Consulting - Funcionários</title>
 </head>
 
@@ -46,7 +46,7 @@
                         </div>
                         {% endfor %}
                 
-                    <table class="table table-hover table-dark">
+                    <table class="table table-hover table-sm table-dark">
                         <tr>
                             <th width="350">Empresa</th>
                             <th width="350">Funcionário</th>
@@ -54,6 +54,7 @@
                             <th style="text-align:center" width="200">Telefone 1</th>
                             <th style="text-align:center" width="200">Telefone 2</th>
                             <th>Email</th>
+                            <th> </th>
                         </tr>
                         {% for funcionario in funcionarios %}
                         <tr>
@@ -62,6 +63,7 @@
                                 <td>{{ empresa.razaosocial }}</td>
                                 {% endif %}
                             {% endfor %}
+                            <td hidden>{{ funcionario.idfuncionario }}</td>
                             <td>{{ funcionario.nomefuncionario}}</td>
                             <td align="center">{{ funcionario.cpf }}</td>
                             <td align="center">{{ funcionario.telefone1 }}</td>
@@ -69,7 +71,7 @@
                             <td>{{ funcionario.email }}</td>
                             <td>
                                 <a href="{{ url_for('funcionario_page.atualizarFuncionario', id=funcionario.idfuncionario) }}" class="btn btn-outline-warning btn-xs"
-                                    title="Editar" data-toggle="modal" data-target="#modaledit{{funcionario.idfuncionario}}">
+                                    title="Editar" >
                                     <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28">
                                 </a>
                                 <a href="{{ url_for('funcionario_page.excluirFuncionario', id=funcionario.idfuncionario) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
@@ -78,359 +80,165 @@
                                 </a>
                             </td>
                         </tr>
-
-                        <!-- Modal para atualizar o Funcionário -->
-                        <div id="modaledit{{ funcionario.idfuncionario }}" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Atualizando Funcionário</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ url_for('funcionario_page.atualizarFuncionario', id=funcionario.idfuncionario) }}" method="POST">
-                                            <div class="form-group">
-                                                <label for="formControlCnae">Empresa</label>
-                                                <select class="form-control" name="empresa" id="formControlEmpresa">
-                                                    <option>-- Selecione uma empresa --</option>
-                                                    {% for empresa in empresas %}
-                                                        {% if empresa.idempresa == funcionario.empresafunc_id %}
-                                                        <option value="{{ empresa.idempresa }}" selected>{{ empresa.razaosocial}}</option>
-                                                        {% else %}
-                                                        <option value="{{ empresa.idempresa }}">{{ empresa.razaosocial}}</option>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nome do Funcionário</label>
-                                                <input type="hidden" name="id" value="{{ funcionario.idfuncionario }}">
-                                                <input type="text" class="form-control" name="nomefuncionario"
-                                                    value="{{ funcionario.nomefuncionario }}" />
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-5">
-                                                    <label>CPF</label>
-                                                    <input type="text" class="form-control" name="cpf"
-                                                    value="{{ funcionario.cpf }}" />
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label>Identidade</label>
-                                                    <input type="text" class="form-control" name="identidade"
-                                                    value="{{ funcionario.identidade }}" />
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>Órgão Exp</label>
-                                                    <input type="text" class="form-control" name="orgaoexpedidor"
-                                                    value="{{ funcionario.orgaoexpedidor }}" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nacionalidade</label>
-                                                <input type="text" class="form-control" name="nacionalidade"
-                                                value="{{ funcionario.nacionalidade }}" />
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Data de Nascimento</label>
-                                                    <input type="text" class="form-control" id="datanascimento" name="datanascimento" 
-                                                    placeholder="DD/MM/YYYY" value="{{ funcionario.datanascimento.strftime('%d/%m/%Y') }}" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="formControlEstadoCivil">Estado Civil</label>
-                                                    <select class="form-control" name="estadocivil" id="formControlEstadoCivil">
-                                                        <option value="{{ funcionario.estadocivil }}" selected>{{ funcionario.estadocivil }}</option>
-                                                        <option>-- Selecione uma opção --</option>
-                                                        <option value="Solteiro">Solteiro</option>
-                                                        <option value="Casado">Casado</option>
-                                                        <option value="Divorciado">Divorciado</option>
-                                                        <option value="Viúvo">Viúvo</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="formControlGrauInstrucao">Grau de Instrução</label>
-                                                <select class="form-control" name="grauinstrucao" id="formControlGrauInstrucao">
-                                                    <option value="{{ funcionario.grauinstrucao }}" selected>{{ funcionario.grauinstrucao }}</option>
-                                                    <option>-- Selecione uma opção --</option>
-                                                    <option value="Ensino Fundamental">Ensino Fundamental</option>
-                                                    <option value="Ensino Médio">Ensino Médio</option>
-                                                    <option value="Pós Médio">Pós Médio</option>
-                                                    <option value="Ensino Superior">Ensino Superior</option>
-                                                    <option value="Pós Graduação">Pós Graduação</option>
-                                                    <option value="Mestrado">Mestrado</option>
-                                                    <option value="Doutorado">Doutorado</option>
-                                                    <option value="Pós Doutorado">Pós Doutorado</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-5">
-                                                    <label for="estado">Natural de</label>
-                                                    <select class="form-control" name="estado" id="estado">
-                                                        <option>-- Selecione um estado --</option>
-                                                        {% for estado in estados %}
-                                                            {% if funcionario.estado == estado.codigo %}
-                                                            <option value="{{ estado.codigo }}" selected>{{ estado.nome }}</option>
-                                                            {% else %}
-                                                            <option value="{{ estado.codigo }}">{{ estado.nome }}</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-7">
-                                                    <label for="municipio">Cidade</label>
-                                                    <select class="form-control" name="municipio" id="municipio">
-                                                        <option value="{{ funcionario.municipio }}" selected>{{ funcionario.municipio }}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <script src="/static/js/lista_cidades.js"></script>
-
-                                            <div class="form-group">
-                                                <label>Profissão</label>
-                                                <input type="text" class="form-control" name="profissao" value="{{ funcionario.profissao }}" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nome do Pai</label>
-                                                <input type="text" class="form-control" name="nomepai" value="{{ funcionario.nomepai }}" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nome do Pai</label>
-                                                <input type="text" class="form-control" name="nomemae" value="{{ funcionario.nomemae }}" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Cargo</label>
-                                                <input type="text" class="form-control" name="cargo" value="{{ funcionario.cargo }}" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Email</label>
-                                                <input type="text" class="form-control" name="emailfuncionario"
-                                                    value="{{ funcionario.emailfuncionario }}" />
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Telefone Principal</label>
-                                                    <input type="text" class="form-control" id="telefone1" 
-                                                        name="telefone1" value="{{ funcionario.telefone1 }}"/>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Outro Telefone</label>
-                                                    <input type="text" class="form-control" id="telefone2"
-                                                        name="telefone2" value="{{ funcionario.telefone2 }}"/>
-                                                </div>
-                                            </div>
-                                            <hr/>
-                                        {% for end in enderecofuncionarios %}
-                                            {% if end.funcionario_id == funcionario.idfuncionario %}
-                                            <div class="form-group">
-                                                <label>CEP</label>
-                                                <input type="text" class="form-control"  id="cep" name="cep"
-                                                    value="{{ end.cep }}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Logradouro</label>
-                                                <input type="text" class="form-control" id="logradouro" name="logradouro"
-                                                    value="{{ end.logradouro }}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Complemento</label>
-                                                <input type="text" class="form-control" id="complemento" name="complemento"
-                                                    value="{{ end.complemento }}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Bairro</label>
-                                                <input type="text" class="form-control" id="bairro" name="bairro"
-                                                    value="{{ end.bairro }}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Cidade</label>
-                                                <input type="text" class="form-control" id="cidade" name="cidade"
-                                                    value="{{ end.cidade }}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Estado</label>
-                                                <input type="text" class="form-control" id="uf" name="uf"
-                                                    value="{{ end.estado }}"/>
-                                            </div>
-
-                                            <script src="/static/js/preenche_endereco.js"></script>
-                                               
-                                            {% endif %}
-                                        {% endfor %}
-                                            <div class="form-group">
-                                                <button class="btn btn-primary" type="submit">Update</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         {% endfor %}
                     </table>
-                </div>
 
-                <!-- Modal Adicionar Funcionário -->
-                <div id="mymodal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Novo Funcionário</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ url_for('funcionario_page.cadastroFuncionario') }}" method="POST">
-                                    <div class="form-group">
-                                        <label for="formControlCnae">Empresa</label>
-                                        <select class="form-control" name="empresa" id="formControlEmpresa">
-                                            <option>-- Selecione uma empresa --</option>
-                                            {% for empresa in empresas %}
-                                                <option value="{{ empresa.idempresa }}">{{ empresa.razaosocial}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome do Funcionário</label>
-                                        <input type="text" class="form-control" name="nomefuncionario" />
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-5">
-                                            <label>CPF</label>
-                                            <input type="text" class="form-control" name="cpf" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Identidade</label>
-                                            <input type="text" class="form-control" name="identidade" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Órgão Exp</label>
-                                            <input type="text" class="form-control" name="orgaoexpedidor" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nacionalidade</label>
-                                        <input type="text" class="form-control" name="nacionalidade" />
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Data de Nascimento</label>
-                                            <input type="text" class="form-control" id="datanascimento" name="datanascimento" 
-                                            placeholder="DD/MM/YYYY" />
-                                        </div>
+                    <!-- Modal Adicionar Funcionário -->
+                    <div id="mymodal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Novo Funcionário</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('funcionario_page.cadastroFuncionario') }}" method="POST">
                                         <div class="form-group">
-                                            <label for="formControlEstadoCivil">Estado Civil</label>
-                                            <select class="form-control" name="estadocivil" id="formControlEstadoCivil">
-                                                <option>-- Selecione uma opção --</option>
-                                                <option value="Casado">Casado</option>
-                                                <option value="Divorciado">Divorciado</option>
-                                                <option value="Solteiro">Solteiro</option>
-                                                <option value="União Estável">União Estável</option>
-                                                <option value="Viúvo">Viúvo</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formControlGrauInstrucao">Grau de Instrução</label>
-                                        <select class="form-control" name="grauinstrucao" id="formControlGrauInstrucao">
-                                            <option>-- Selecione uma opção --</option>
-                                            <option value="Ensino Fundamental">Ensino Fundamental</option>
-                                            <option value="Ensino Médio">Ensino Médio</option>
-                                            <option value="Pós Médio">Pós Médio</option>
-                                            <option value="Ensino Superior">Ensino Superior</option>
-                                            <option value="Pós Graduação">Pós Graduação</option>
-                                            <option value="Mestrado">Mestrado</option>
-                                            <option value="Doutorado">Doutorado</option>
-                                            <option value="Pós Doutorado">Pós Doutorado</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-5">
-                                            <label for="estado">Natural de</label>
-                                            <select class="form-control" name="estado1" id="estado1">
-                                                <option>-- Selecione um estado --</option>
-                                                {% for estado in estados %}
-                                                    <option value="{{ estado.codigo }}">{{ estado.nome }}</option>
+                                            <label for="formControlCnae">Empresa</label>
+                                            <select class="form-control" name="empresa" id="formControlEmpresa">
+                                                <option>-- Selecione uma empresa --</option>
+                                                {% for empresa in empresas %}
+                                                    <option value="{{ empresa.idempresa }}">{{ empresa.razaosocial}}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-7">
-                                            <label for="municipio">Cidade</label>
-                                            <select class="form-control" name="municipio1" id="municipio1"></select>
+                                        <div class="form-group">
+                                            <label>Nome do Funcionário</label>
+                                            <input type="text" class="form-control" name="nomefuncionario" />
                                         </div>
-                                    </div>
-
-                                    <script src="/static/js/lista_cidades1.js"></script>
-
-                                    <div class="form-group">
-                                        <label>Profissão</label>
-                                        <input type="text" class="form-control" name="profissao" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome do Pai</label>
-                                        <input type="text" class="form-control" name="nomepai" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome do Pai</label>
-                                        <input type="text" class="form-control" name="nomemae" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Cargo</label>
-                                        <input type="text" class="form-control" name="cargo" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" class="form-control" name="emailfuncionario" />
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Telefone Principal</label>
-                                            <input type="text" class="form-control" id="telefone3" name="telefone3" />
+                                        <div class="form-row">
+                                            <div class="form-group col-md-5">
+                                                <label>CPF</label>
+                                                <input type="text" class="form-control" name="cpf" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Identidade</label>
+                                                <input type="text" class="form-control" name="identidade" />
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>Órgão Exp</label>
+                                                <input type="text" class="form-control" name="orgaoexpedidor" />
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Outro Telefone</label>
-                                            <input type="text" class="form-control" id="telefone4" name="telefone4"/>
+                                        <div class="form-group">
+                                            <label>Nacionalidade</label>
+                                            <input type="text" class="form-control" name="nacionalidade" />
                                         </div>
-                                    </div>
-                                    <hr/>
-                               
-                                    <div class="form-group">
-                                        <label>CEP</label>
-                                        <input type="text" class="form-control"  id="cep1" name="cep1"
-                                            value="{{ end.cep }}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Logradouro</label>
-                                        <input type="text" class="form-control" id="logradouro1" name="logradouro1" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Complemento</label>
-                                        <input type="text" class="form-control" id="complemento1" name="complemento1" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Bairro</label>
-                                        <input type="text" class="form-control" id="bairro1" name="bairro1" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Cidade</label>
-                                        <input type="text" class="form-control" id="cidade1" name="cidade1" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Estado</label>
-                                        <input type="text" class="form-control" id="uf1" name="uf1" />
-                                    </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Data de Nascimento</label>
+                                                <input type="text" class="form-control" id="datanascimento" name="datanascimento" 
+                                                placeholder="DD/MM/YYYY" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="formControlEstadoCivil">Estado Civil</label>
+                                                <select class="form-control" name="estadocivil" id="formControlEstadoCivil">
+                                                    <option value="">-- Selecione uma opção --</option>
+                                                    <option value="Casado">Casado</option>
+                                                    <option value="Divorciado">Divorciado</option>
+                                                    <option value="Solteiro">Solteiro</option>
+                                                    <option value="União Estável">União Estável</option>
+                                                    <option value="Viúvo">Viúvo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="formControlGrauInstrucao">Grau de Instrução</label>
+                                            <select class="form-control" name="grauinstrucao" id="formControlGrauInstrucao">
+                                                <option>-- Selecione uma opção --</option>
+                                                <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                                <option value="Ensino Médio">Ensino Médio</option>
+                                                <option value="Pós Médio">Pós Médio</option>
+                                                <option value="Ensino Superior">Ensino Superior</option>
+                                                <option value="Pós Graduação">Pós Graduação</option>
+                                                <option value="Mestrado">Mestrado</option>
+                                                <option value="Doutorado">Doutorado</option>
+                                                <option value="Pós Doutorado">Pós Doutorado</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-5">
+                                                <label for="estado">Natural de</label>
+                                                <select class="form-control" name="estado1" id="estado1">
+                                                    <option value="0">-- Selecione um estado --</option>
+                                                    {% for estado in estados %}
+                                                        <option value="{{ estado.codigo }}">{{ estado.nome }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-7">
+                                                <label for="municipio">Cidade</label>
+                                                <select class="form-control" name="municipio1" id="municipio1"></select>
+                                            </div>
+                                        </div>
 
-                                    <script src="/static/js/preenche_endereco1.js"></script>
-                                 
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" type="submit">Adicionar</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Close</button>
+                                        <script src="/static/js/lista_cidades1.js"></script>
+
+                                        <div class="form-group">
+                                            <label>Profissão</label>
+                                            <input type="text" class="form-control" name="profissao" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nome do Pai</label>
+                                            <input type="text" class="form-control" name="nomepai" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nome do Pai</label>
+                                            <input type="text" class="form-control" name="nomemae" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cargo</label>
+                                            <input type="text" class="form-control" name="cargo" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="emailfuncionario" />
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Telefone Principal</label>
+                                                <input type="text" class="form-control" id="telefone3" name="telefone3" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Outro Telefone</label>
+                                                <input type="text" class="form-control" id="telefone4" name="telefone4"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                
+                                        <div class="form-group">
+                                            <label>CEP</label>
+                                            <input type="text" class="form-control"  id="cep1" name="cep1"
+                                                value="{{ end.cep }}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Logradouro</label>
+                                            <input type="text" class="form-control" id="logradouro1" name="logradouro1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Complemento</label>
+                                            <input type="text" class="form-control" id="complemento1" name="complemento1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Bairro</label>
+                                            <input type="text" class="form-control" id="bairro1" name="bairro1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cidade</label>
+                                            <input type="text" class="form-control" id="cidade1" name="cidade1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Estado</label>
+                                            <input type="text" class="form-control" id="uf1" name="uf1" />
+                                        </div>
+
+                                        <script src="/static/js/preenche_endereco1.js"></script>
+                                    
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Adicionar</button>
+                                            <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -440,17 +248,19 @@
     </div>
 </body>
 <footer>
-    <!-- Feito com o Form-row, pois o justify-content não funciona no IE -->
-    <div class="form-row align-itens-center ml-3">
-        <div class="col-md-6">
-            <h3>Exibindo de {{ start }} a {{ end }} Funcionários. Total {{ pagination.total }} Funcionários</h3>
+    <div class="inner">
+        <!-- Feito com o Form-row, pois o justify-content não funciona no IE -->
+        <div class="form-row align-itens-center ml-3">
+            <div class="col-md-6">
+                <h3>Exibindo de {{ start }} a {{ end }} Funcionários. Total {{ pagination.total }} Funcionários</h3>
+            </div>
+            <div class="col-md-4">
+                {{ pagination.links }}
+            </div>
+            <div class="col-md-2">
+                <a href="{{ url_for('index_page.index') }}" class="btn btn-primary">Voltar</a>
+            </div>    
         </div>
-        <div class="col-md-4">
-            {{ pagination.links }}
-        </div>
-        <div class="col-md-2">
-            <a href="{{ url_for('index_page.index') }}" class="btn btn-primary">Voltar</a>
-        </div>    
     </div>
 </body>
 </footer>

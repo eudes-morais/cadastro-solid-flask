@@ -45,10 +45,16 @@ CREATE TABLE Funcionario (
 
 CREATE TABLE OrgaoResponsavel (
     idOrgao serial PRIMARY KEY,
-    nome varchar(50),
+    nomeorgao varchar(100),
     contato varchar(50),
     telefone1 varchar(15),
-    telefone2 varchar(15)
+    telefone2 varchar(15),
+    logradouro varchar(150),
+    complemento varchar(100),
+    bairro varchar(100),
+    cidade varchar(150),
+    estado varchar(20),
+    cep varchar(8)
 );
 
 CREATE TABLE EnderecoEmpresa (
@@ -75,18 +81,6 @@ CREATE TABLE EnderecoFuncionario (
     FOREIGN KEY (funcionario_id) REFERENCES Funcionario(idFuncionario)
 );
 
-CREATE TABLE EnderecoOrgao (
-    idEndereco serial PRIMARY KEY,
-    logradouro varchar(150),
-    complemento varchar(100),
-    bairro varchar(100),
-    cidade varchar(150),
-    estado varchar(20),
-    cep varchar(8),
-    orgao_id int, 
-    FOREIGN KEY (orgao_id) REFERENCES OrgaoResponsavel(idOrgao)
-);
-
 CREATE TABLE Licenca (
     idLicenca serial PRIMARY KEY,
     dataInicial date,
@@ -100,18 +94,22 @@ CREATE TABLE Licenca (
 
 CREATE TABLE Produto (
     idProduto serial PRIMARY KEY,
+    codProdutoNcm varchar(11),
+    codNcm varchar(8),
     descricao varchar(150),
     quantidade float,
-    unidadeMedida varchar(12),
-    licenca_id int,
-    FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
+    unidadeMedida varchar(12)
 );
 
+-- CREATE TABLE Atividade (
+--     idAtividade serial PRIMARY KEY,
+--     descricao varchar(150),
+--     licenca_id int,
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
+-- );
 CREATE TABLE Atividade (
     idAtividade serial PRIMARY KEY,
-    descricao varchar(150),
-    licenca_id int,
-    FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
+    descricao varchar(150)
 );
 
 CREATE TABLE Estado (
@@ -132,8 +130,6 @@ GRANT ALL ON SEQUENCE public.enderecoempresa_idenderecoemp_seq TO solid;
 
 GRANT ALL ON SEQUENCE public.enderecofuncionario_idenderecofunc_seq TO solid;
 
-GRANT ALL ON SEQUENCE public.enderecoorgao_idendereco_seq TO solid;
-
 GRANT ALL ON SEQUENCE public.funcionario_idfuncionario_seq TO solid;
 
 GRANT ALL ON SEQUENCE public.licenca_idlicenca_seq TO solid;
@@ -153,8 +149,6 @@ GRANT ALL ON TABLE public.empresa TO solid;
 GRANT ALL ON TABLE public.enderecoempresa TO solid;
 
 GRANT ALL ON TABLE public.enderecofuncionario TO solid;
-
-GRANT ALL ON TABLE public.enderecoorgao TO solid;
 
 GRANT ALL ON TABLE public.funcionario TO solid;
 

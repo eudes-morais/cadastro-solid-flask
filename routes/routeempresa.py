@@ -98,7 +98,7 @@ def excluir(id):
 # em ROUTE para que traga as informações que serão alteradas
 @empresa_page.route("/atualizar/<int:id>", methods=['GET','POST'])
 def atualizar(id):
-    cnae = Cnae.query.all()
+    cnae = classes.cnae.Cnae.query.all()
     empresa = Empresa.query.get(id)
     idenderecoempresa = empresa.idempresa
     enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
@@ -153,7 +153,4 @@ def atualizar(id):
         
         return redirect(url_for("empresa_page.listar"))
     
-    mensagem = "Ocorreu um erro ao atualizar a Empresa"
-    alerta = "danger"
-    
-    return redirect(url_for("empresa_page.listar"))
+    return render_template("atualizaempresa.html", empresa = empresa, cnae = cnae, enderecoempresa = enderecoempresa)

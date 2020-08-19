@@ -24,6 +24,9 @@ from classes.enderecoempresa import EnderecoEmpresa
 #------------------------- Trabalhando com as rotas ----------------------------
 #-------------------------------------------------------------------------------
 
+from routes.routeorgao import orgao_page
+app.register_blueprint(orgao_page)
+
 from routes.routefuncionario import funcionario_page
 app.register_blueprint(funcionario_page)
 
@@ -32,18 +35,10 @@ app.register_blueprint(empresa_page)
 
 from routes.routeindex import index_page
 app.register_blueprint(index_page)
-# Rota para a página inicial
-# from routes.routeempresa import empresa_page
-
 
 # @app.route("/")
 # def index():
 #     return render_template("index.html")
-
-# from routes.routefuncionario import funcionario_page
-# from routes.routeempresa import empresa_page
-# app.register_blueprint(funcionario_page)
-# app.register_blueprint(empresa_page)
 
 #-------------------------------------------------------------------------------
 #---------------------------- INICIALIZAÇÃO DO APP -----------------------------

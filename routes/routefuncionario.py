@@ -99,10 +99,11 @@ def excluirFuncionario(id):
 
 # Rota para a página de edição de FUNCIONÁRIO
 # É importante que seja adicionado o método GET em ROUTE para que traga as informações que serão editadas
-@funcionario_page.route("/atualizarfunc/<int:id>", methods=['GET','POST'])
+@funcionario_page.route("/atualizarfuncionario/<int:id>", methods=['GET','POST'])
 def atualizarFuncionario(id):
     funcionario = Funcionario.query.get(id)
-    empresa = Empresa.query.all()
+    empresas = Empresa.query.all()
+    estados = Estado.query.all()
     idenderecofuncionario = funcionario.idfuncionario
     enderecofuncionario = EnderecoFuncionario.query.get(idenderecofuncionario)
 
@@ -176,7 +177,5 @@ def atualizarFuncionario(id):
         
         return redirect(url_for("funcionario_page.listaFuncionarios"))
     
-    mensagem = "Ocorreu um erro ao atualizar o Funcionário"
-    alerta = "danger"
-    
-    return redirect(url_for("funcionario_page.listaFuncionarios"))
+    return render_template("atualizafuncionario.html", empresas = empresas, funcionario = funcionario,
+                            enderecofuncionario = enderecofuncionario, estados = estados)

@@ -15,7 +15,7 @@ class Funcionario(db.Model):
     estado = db.Column(db.String(20))
     municipio = db.Column(db.String(100))
     datanascimento = db.Column(db.DateTime)
-    estadocivil = db.Column(db.String(10))
+    estadocivil = db.Column(db.String(13))
     profissao = db.Column(db.String(50))
     nomepai = db.Column(db.String(150))
     nomemae = db.Column(db.String(150))

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Não utilizar o JQUERY SLIM pois com ele não funciona o autocompletamento do endereço -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" 
+        integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w=="
+        crossorigin="anonymous"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/mask.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Solid Consulting - Funcionários</title>
+</head>
+
+<body>
+    <div class="inner">
+        <nav class="navbar navbar-expand-sm justify-content-between">
+            <h1><p class="text-center">Atualizando {{ funcionario.nomefuncionario }}</p></h1>
+            <a class="navbar-brand" href="#">
+                <img src="/static/images/solid_icon.png" alt="" width="120" height="70">
+            </a>
+        </nav> 
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-18">
+                <div class="jumbotron p-3">
+                    <form action="{{ url_for('funcionario_page.atualizarFuncionario', id=funcionario.idfuncionario) }}" method="POST">
+                        <div class="form-group col-md-4">
+                            <label for="formControlCnae">Empresa</label>
+                            <select class="form-control" name="empresa" id="formControlEmpresa">
+                                <option>-- Selecione uma empresa --</option>
+                                {% for empresa in empresas %}
+                                    {% if empresa.idempresa == funcionario.empresafunc_id %}
+                                    <option value="{{ empresa.idempresa }}" selected>{{ empresa.razaosocial}}</option>
+                                    {% else %}
+                                    <option value="{{ empresa.idempresa }}">{{ empresa.razaosocial}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-row ml-6">
+                            <div class="form-group col-md-4">
+                                <label>Nome do Funcionário</label>
+                                <input type="hidden" name="id" value="{{ funcionario.idfuncionario }}">
+                                <input type="text" class="form-control" name="nomefuncionario"
+                                    value="{{ funcionario.nomefuncionario }}" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>CPF</label>
+                                <input type="text" class="form-control" name="cpf"
+                                value="{{ funcionario.cpf }}" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Identidade</label>
+                                <input type="text" class="form-control" name="identidade"
+                                value="{{ funcionario.identidade }}" />
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label>Órgão Exp</label>
+                                <input type="text" class="form-control" name="orgaoexpedidor"
+                                value="{{ funcionario.orgaoexpedidor }}" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Profissão</label>
+                                <input type="text" class="form-control" name="profissao" value="{{ funcionario.profissao }}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label>Nacionalidade</label>
+                                <input type="text" class="form-control" name="nacionalidade"
+                                value="{{ funcionario.nacionalidade }}" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Data de Nascimento</label>
+                                <input type="text" class="form-control" id="datanascimento" name="datanascimento" 
+                                placeholder="DD/MM/YYYY" value="{{ funcionario.datanascimento.strftime('%d/%m/%Y') }}" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="formControlEstadoCivil">Estado Civil</label>
+                                <select class="form-control" name="estadocivil" id="formControlEstadoCivil">
+                                    <option value="{{ funcionario.estadocivil }}" selected>{{ funcionario.estadocivil }}</option>
+                                    <option>-- Selecione uma opção --</option>
+                                    <option value="Solteiro">Solteiro</option>
+                                    <option value="Casado">Casado</option>
+                                    <option value="Divorciado">Divorciado</option>
+                                    <option value="Viúvo">Viúvo</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="formControlGrauInstrucao">Grau de Instrução</label>
+                                <select class="form-control" name="grauinstrucao" id="formControlGrauInstrucao">
+                                    <option value="{{ funcionario.grauinstrucao }}" selected>{{ funcionario.grauinstrucao }}</option>
+                                    <option>-- Selecione uma opção --</option>
+                                    <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                    <option value="Ensino Médio">Ensino Médio</option>
+                                    <option value="Pós Médio">Pós Médio</option>
+                                    <option value="Ensino Superior">Ensino Superior</option>
+                                    <option value="Pós Graduação">Pós Graduação</option>
+                                    <option value="Mestrado">Mestrado</option>
+                                    <option value="Doutorado">Doutorado</option>
+                                    <option value="Pós Doutorado">Pós Doutorado</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Cargo</label>
+                                <input type="text" class="form-control" name="cargo" value="{{ funcionario.cargo }}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="estado">Natural de</label>
+                                <select class="form-control" name="estado" id="estado">
+                                    <option>-- Selecione um estado --</option>
+                                    {% for estado in estados %}
+                                        {% if funcionario.estado == estado.codigo %}
+                                        <option value="{{ estado.codigo }}" selected>{{ estado.nome }}</option>
+                                        {% else %}
+                                        <option value="{{ estado.codigo }}">{{ estado.nome }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="municipio">Cidade</label>
+                                <!-- <select class="form-control" name="municipio" id="municipio"></select> -->
+                                <input list="municipio" class="form-control" name="municipio" value="{{ funcionario.municipio }}" />
+                                <datalist id="municipio"></datalist>
+                            </div>
+                            <script src="/static/js/lista_cidades.js"></script>
+                            <div class="form-group col-md-2">
+                                <label>Telefone Principal</label>
+                                <input type="text" class="form-control" id="telefone1" 
+                                    name="telefone1" value="{{ funcionario.telefone1 }}"/>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Outro Telefone</label>
+                                <input type="text" class="form-control" id="telefone2"
+                                    name="telefone2" value="{{ funcionario.telefone2 }}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Email</label>
+                                <input type="text" class="form-control" name="emailfuncionario"
+                                    value="{{ funcionario.emailfuncionario }}" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Nome do Pai</label>
+                                <input type="text" class="form-control" name="nomepai" value="{{ funcionario.nomepai }}" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Nome da Mãe</label>
+                                <input type="text" class="form-control" name="nomemae" value="{{ funcionario.nomemae }}" />
+                            </div>
+                        </div>
+                        <hr/>      
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label>CEP</label>
+                                <input type="text" class="form-control"  id="cep" name="cep"
+                                    value="{{ enderecofuncionario.cep }}"/>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label>Logradouro</label>
+                                <input type="text" class="form-control" id="logradouro" name="logradouro"
+                                    value="{{ enderecofuncionario.logradouro }}"/>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Complemento</label>
+                                <input type="text" class="form-control" id="complemento" name="complemento"
+                                    value="{{ enderecofuncionario.complemento }}"/>
+                            </div>
+                        </div>            
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Bairro</label>
+                                <input type="text" class="form-control" id="bairro" name="bairro"
+                                    value="{{ enderecofuncionario.bairro }}"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Cidade</label>
+                                <input type="text" class="form-control" id="cidade" name="cidade"
+                                    value="{{ enderecofuncionario.cidade }}"/>
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label>Estado</label>
+                                <input type="text" class="form-control" id="uf" name="uf"
+                                    value="{{ enderecofuncionario.estado }}"/>
+                            </div>
+
+                        </div>
+                        <script src="/static/js/preenche_endereco.js"></script>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Atualizar</button>
+                            <a href="{{ url_for('funcionario_page.listaFuncionarios') }}" class="btn btn-secondary float-right">Voltar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
