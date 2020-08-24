@@ -89,14 +89,14 @@
                                 {% endfor %}
                                 <td>
                                     <a href="{{ url_for('empresa_page.atualizar', id=empresa.idempresa) }}" class="btn btn-outline-warning btn-xs" title="Editar">
-                                        <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30"
-                                            height="28">
+                                        <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28">
+                                    </a>
+                                    <a href="{{ url_for('licenca_page.listalicencas', id=empresa.idempresa) }}" class="btn btn-outline-info btn-xs" title="Licenças">
+                                        <img src="{{ url_for('static', filename='images/diploma1.png') }}" width="30" height="28">
                                     </a>
                                     <a href="{{ url_for('empresa_page.excluir', id=empresa.idempresa) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
                                     onclick="return confirm('Deseja realmente excluir {{ empresa.razaosocial }}?')">
-                                        <!-- ou <a href="/excluir/{{ empresa.idempresa }}"> -->
-                                        <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30"
-                                            height="28">
+                                        <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30" height="28">
                                     </a>
                                 </td>
                             </tr>
