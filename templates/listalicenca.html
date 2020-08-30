@@ -87,7 +87,7 @@
                                 <div class="modal-body">
                                     <form action="{{ url_for('licenca_page.cadastroLicenca') }}" method="POST">
                                         <div class="form-group">
-                                            <label for="formControlCnae">Empresa</label>
+                                            <label for="formControlCnae">Licença - {{ empresa.razaosocial }}</label>
                                             <select class="form-control" name="empresa" id="formControlEmpresa">
                                                 <option>-- Selecione uma empresa --</option>
                                                 {% for empresa in empresas %}
