@@ -15,44 +15,27 @@ from app import db
 licenca_page = Blueprint('licenca_page', __name__, template_folder='routes')
 
 # Rota para carregar as informações digitadas ao se cadastrar uma nova EMPRESA
-@empresa_page.route("/cadastro", methods=['GET', 'POST'])
-def cadastro():
+@licenca_page.route("/cadastrolicenca", methods=['GET', 'POST'])
+def cadastrolicenca():
     if request.method == 'POST':
-        numeropasta = request.form.get("numeropasta")
-        razaoSocial = request.form.get("razaosocial")
-        inscEst = request.form.get("inscricaoestadual")
-        cnpj = request.form.get("cnpj")
-        cxPostal = request.form.get("caixapostal")
-        email = request.form.get("email")
-        cnae_id = str(request.form.get("cnae"))
-        telefone1 = request.form.get("telefone1")
-        telefone2 = request.form.get("telefone2")
-        logradouro = request.form.get("logradouro")
-        complemento = request.form.get("complemento")
-        bairro = request.form.get("bairro")
-        cidade = request.form.get("cidade")
-        estado = request.form.get("estado")
-        cep = str(request.form.get("cep"))
+        datainicial = request.form.get("datainicial")
+        datafinal = request.form.get("datafinal")
+        valorlicenca = request.form.get("valorlicenca")
+        # Transformando o valor para FLOAT universal
+        valorlicenca = str(valorlicenca).replace(',','.')
+        orgao_id = request.form.get("orgaoresponsavel")
+        empresa_id = request.form.get("empresaid")
         
-        # Construtor da classe EMPRESA
-        empresa = Empresa(numeropasta, razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id, telefone1, telefone2)
-        db.session.add(empresa)
-        # O comando abaixo força a criação do ID no BD
-        db.session.flush()
-
-        # 'Captura' o ID da empresa para ser adicionado na tabela ENDERECOEMPRESA
-        empresa_id = empresa.idempresa
-
-        # Construtor da classe ENDERECOEMPRESA
-        enderecoempresa = EnderecoEmpresa(logradouro, complemento, bairro, cidade, estado, cep, empresa_id=empresa.idempresa)
-        db.session.add(enderecoempresa)
+        # Construtor da classe LICENÇA
+        licenca = Licenca(datainicial, datafinal, valorlicenca, orgao_id, empresa_id)
+        db.session.add(licenca)
         db.session.commit()
         
-        mensagem = "Empresa gravada com sucesso"
+        mensagem = "Licença gravada com sucesso"
         alerta = "success"
 
         flash(mensagem, alerta)
-        return redirect(url_for("empresa_page.listar"))
+        return redirect(url_for('licenca_page.listalicencas', id = empresa_id))
 
 # Rota para a página de LICENÇAS que a empresa tem cadastradas.
 # É importante que seja adicionado o método GET (juntamente com o método POST)
@@ -63,19 +46,19 @@ def listalicencas(id):
     empresa = Empresa.query.get(id)
     idempresa = empresa.idempresa
     orgaos = Orgao.query.all()
-    licencas = Licenca.query.filter(Licenca.empresa_id(idempresa)).all()
+    licencas = Licenca.query.filter(Licenca.empresa_id == idempresa).all()
     
     page = int(request.args.get("page", 1))
     start = (page - 1) * limit
     end = page * limit if len(licencas) > page * limit else len(licencas)
-    paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4')
+    paginate = Pagination(page=page, total=len(licencas), css_framework='bootstrap4')
     pageLicencas = Licenca.query.order_by(Licenca.orgao_id).slice(start, end)
     return render_template("listalicenca.html", empresa = empresa, orgaos = orgaos, start=start + 1, end=end,
                             licencas = licencas, pagination=paginate)
 
 # Rota para exclusão de uma EMPRESA existente
-@empresa_page.route("/excluir/<int:id>", methods = ['GET', 'POST'])
-def excluir(id):
+@licenca_page.route("/excluirlicenca/<int:id>", methods = ['GET', 'POST'])
+def excluirlicenca(id):
     empresa = Empresa.query.get(id)
     idenderecoempresa = empresa.idempresa
     enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
@@ -90,14 +73,13 @@ def excluir(id):
     alerta = "success"
 
     flash(mensagem, alerta)
-    return redirect(url_for("empresa_page.listar"))
+    return redirect(url_for("licenca_page.listarlicencas"))
 
 # Rota para a página de alteração do cadastro da EMPRESA. 
 # É importante que seja adicionado o método GET (juntamente com o método POST)
 # em ROUTE para que traga as informações que serão alteradas
-@empresa_page.route("/atualizar/<int:id>", methods=['GET','POST'])
-def atualizar(id):
-    cnae = classes.cnae.Cnae.query.all()
+@licenca_page.route("/atualizarlicenca/<int:id>", methods=['GET','POST'])
+def atualizarlicenca(id):
     empresa = Empresa.query.get(id)
     idenderecoempresa = empresa.idempresa
     enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
@@ -150,6 +132,6 @@ def atualizar(id):
 
         flash(mensagem, alerta)
         
-        return redirect(url_for("empresa_page.listar"))
+        return redirect(url_for("licenca_page.listarlicencas"))
     
     return render_template("atualizaempresa.html", empresa = empresa, cnae = cnae, enderecoempresa = enderecoempresa)

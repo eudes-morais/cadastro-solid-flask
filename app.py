@@ -7,7 +7,8 @@ from flask_paginate import Pagination
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@192.168.0.105:5432/solid"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
@@ -15,6 +16,8 @@ from classes.cnae import *
 from classes.estado import Estado
 from classes.empresa import Empresa
 from classes.enderecoempresa import EnderecoEmpresa
+from classes.orgao import Orgao
+from classes.licenca import Licenca
 
 # Os IMPORTS abaixo devem ficar depois do 'db = SQLAlchemy(app)', 
 # para que as classes possam ser iniciadas corretamente.
@@ -23,6 +26,8 @@ from classes.enderecoempresa import EnderecoEmpresa
 #-------------------------------------------------------------------------------
 #------------------------- Trabalhando com as rotas ----------------------------
 #-------------------------------------------------------------------------------
+from routes.routelicenca import licenca_page
+app.register_blueprint(licenca_page)
 
 from routes.routeorgao import orgao_page
 app.register_blueprint(orgao_page)
@@ -47,4 +52,5 @@ app.register_blueprint(index_page)
 if __name__ == "__main__":
     # app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
     # app.run(host='192.168.0.105', debug=True) # Para se testar dentro da empresa
+    # app.run(host='192.168.100.6', debug=False)
     app.run(debug=True)

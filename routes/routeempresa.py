@@ -152,5 +152,6 @@ def atualizar(id):
         flash(mensagem, alerta)
         
         return redirect(url_for("empresa_page.listar"))
+        # return render_template("lista.html")
     
     return render_template("atualizaempresa.html", empresa = empresa, cnae = cnae, enderecoempresa = enderecoempresa)

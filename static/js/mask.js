@@ -1,5 +1,7 @@
 $(function($){
     $("#datanascimento").mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
+    $("#datainicial").mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
+    $("#datafinal").mask("99/99/9999",{placeholder:"dd/mm/aaaa"});
     $("#telefone1").mask("(99) 99999-9999");
     $('#telefone2').mask('(00) 00000-0000');
     $('#telefone3').mask('(00) 00000-0000');
