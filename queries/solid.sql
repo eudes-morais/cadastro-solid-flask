@@ -88,8 +88,12 @@ CREATE TABLE Licenca (
     valorLicenca float,
     orgao_id int,
     empresa_id int,
+    produto_id integer[],
+    atividade_id integer[],
     FOREIGN KEY (orgao_id) REFERENCES OrgaoResponsavel(idOrgao),
-    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa)
+    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa),
+    FOREIGN KEY (produto_id) REFERENCES Produto(idProduto),
+    FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
 );
 
 CREATE TABLE Produto (
@@ -118,6 +122,22 @@ CREATE TABLE Estado (
     sigla varchar(2),
     nome varchar(20)
 );
+
+-- CREATE TABLE LicencaAtividade (
+--     licenca_id int NOT NULL,
+--     atividade_id int NOT NULL,
+--     PRIMARY KEY (licenca_id, atividade_id),
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
+--     FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
+-- );
+
+-- CREATE TABLE LicencaProduto (
+--     licenca_id int NOT NULL,
+--     produto_id int NOT NULL,
+--     PRIMARY KEY (licenca_id, produto_id),
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
+--     FOREIGN KEY (produto_id) REFERENCES Produto(idProduto)
+-- );
 
 -- Garantindo TODOS os privilégios para TODAS as tabelas
 GRANT ALL ON SEQUENCE public.atividade_idatividade_seq TO solid;
@@ -159,3 +179,7 @@ GRANT ALL ON TABLE public.orgaoresponsavel TO solid;
 GRANT ALL ON TABLE public.produto TO solid;
 
 GRANT ALL ON TABLE public.estado TO solid;
+
+-- GRANT ALL ON TABLE public.licencaatividade TO solid;
+
+-- GRANT ALL ON TABLE public.licencaproduto TO solid;

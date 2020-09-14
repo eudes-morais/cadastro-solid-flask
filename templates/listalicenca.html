@@ -68,7 +68,7 @@
                                     title="Editar" >
                                     <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28">
                                 </a>
-                                <a href="#" class="btn btn-outline-info btn-xs" title="Produtos/Atividades">
+                                <a href="{{ url_for('lap_page.listalap', id=licenca.idlicenca) }}" class="btn btn-outline-info btn-xs" title="Produtos/Atividades">
                                     <img src="{{ url_for('static', filename='images/lab1.png') }}" width="30" height="28">
                                 </a>
                                 <a href="{{ url_for('licenca_page.excluirlicenca', id=licenca.idlicenca) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
@@ -146,6 +146,5 @@
             </div>    
         </div>
     </div>
-</body>
 </footer>
 </html>

@@ -26,6 +26,9 @@ from classes.licenca import Licenca
 #-------------------------------------------------------------------------------
 #------------------------- Trabalhando com as rotas ----------------------------
 #-------------------------------------------------------------------------------
+from routes.routelap import lap_page
+app.register_blueprint(lap_page)
+
 from routes.routelicenca import licenca_page
 app.register_blueprint(licenca_page)
 
