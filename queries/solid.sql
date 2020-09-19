@@ -26,7 +26,7 @@ CREATE TABLE Funcionario (
     orgaoExpedidor varchar(11),
     grauInstrucao varchar(25),
     nacionalidade varchar(40),
-    uf varchar(100),
+    uf varchar(100)
     municipio varchar(100),
     dataNascimento date,
     estadoCivil varchar(10),
@@ -38,7 +38,7 @@ CREATE TABLE Funcionario (
     telefone1 varchar(15),
     telefone2 varchar(15),
     estado varchar(20),
-    cidade varchar(100),
+    cidade varchar(100)
     empresafunc_id int,
     FOREIGN KEY (empresafunc_id) REFERENCES Empresa(idEmpresa)
 );
@@ -81,20 +81,6 @@ CREATE TABLE EnderecoFuncionario (
     FOREIGN KEY (funcionario_id) REFERENCES Funcionario(idFuncionario)
 );
 
-CREATE TABLE Produto (
-    idProduto serial PRIMARY KEY,
-    codProdutoNcm varchar(11),
-    codNcm varchar(8),
-    descricao varchar(150),
-    quantidade float,
-    unidadeMedida varchar(12)
-);
-
-CREATE TABLE Atividade (
-    idAtividade serial PRIMARY KEY,
-    descricao varchar(150)
-);
-
 CREATE TABLE Licenca (
     idLicenca serial PRIMARY KEY,
     dataInicial date,
@@ -105,7 +91,29 @@ CREATE TABLE Licenca (
     produto_id integer[],
     atividade_id integer[],
     FOREIGN KEY (orgao_id) REFERENCES OrgaoResponsavel(idOrgao),
-    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa)
+    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa),
+    FOREIGN KEY (produto_id) REFERENCES Produto(idProduto),
+    FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
+);
+
+CREATE TABLE Produto (
+    idProduto serial PRIMARY KEY,
+    codProdutoNcm varchar(11),
+    codNcm varchar(8),
+    descricao varchar(150),
+    quantidade float,
+    unidadeMedida varchar(12)
+);
+
+-- CREATE TABLE Atividade (
+--     idAtividade serial PRIMARY KEY,
+--     descricao varchar(150),
+--     licenca_id int,
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
+-- );
+CREATE TABLE Atividade (
+    idAtividade serial PRIMARY KEY,
+    descricao varchar(150)
 );
 
 CREATE TABLE Estado (
@@ -114,6 +122,22 @@ CREATE TABLE Estado (
     sigla varchar(2),
     nome varchar(20)
 );
+
+-- CREATE TABLE LicencaAtividade (
+--     licenca_id int NOT NULL,
+--     atividade_id int NOT NULL,
+--     PRIMARY KEY (licenca_id, atividade_id),
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
+--     FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
+-- );
+
+-- CREATE TABLE LicencaProduto (
+--     licenca_id int NOT NULL,
+--     produto_id int NOT NULL,
+--     PRIMARY KEY (licenca_id, produto_id),
+--     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
+--     FOREIGN KEY (produto_id) REFERENCES Produto(idProduto)
+-- );
 
 -- Garantindo TODOS os privilégios para TODAS as tabelas
 GRANT ALL ON SEQUENCE public.atividade_idatividade_seq TO solid;
@@ -155,3 +179,7 @@ GRANT ALL ON TABLE public.orgaoresponsavel TO solid;
 GRANT ALL ON TABLE public.produto TO solid;
 
 GRANT ALL ON TABLE public.estado TO solid;
+
+-- GRANT ALL ON TABLE public.licencaatividade TO solid;
+
+-- GRANT ALL ON TABLE public.licencaproduto TO solid;
