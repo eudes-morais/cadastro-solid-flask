@@ -47,7 +47,6 @@
         {% endfor %}
         <form id="lapform" action="{{url_for('lap_page.atualizalap', id=licenca.idlicenca)}}" method="POST">
             <input type="hidden" name="empresaid" value="{{empresa.idempresa}}">
-            {{ licenca.atividade_id }}
             <select multiple="multiple" size="7" name="duallistbox_atividades[]">
                 <!-- O IF tem que ficar DENTRO da tag OPTION -->
                 {% for atividade in atividades %}
@@ -62,7 +61,6 @@
             <br>
             <hr>
             <h1><p class="text-center">Produtos</p></h1>
-            {{ licenca.produto_id }}
             <select multiple id="multiple" size="7" name="duallistbox_produtos[]">
                 {% for produto in produtos %}
                 <option value="{{ produto.idproduto }}"

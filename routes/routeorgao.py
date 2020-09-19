@@ -53,7 +53,7 @@ def listar():
     return render_template("listaorgao.html", orgaos = pageOrgaos, start=start + 1, end=end, pagination=paginate)
 
 # Rota para exclusão de um ORGÃO existente
-@orgao_page.route("/excluir/<int:id>", methods = ['GET', 'POST'])
+@orgao_page.route("/excluiorgao/<int:id>", methods = ['GET', 'POST'])
 def excluir(id):
     orgao = Orgao.query.get(id)
     

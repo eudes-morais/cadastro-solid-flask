@@ -91,7 +91,7 @@
                                     <a href="{{ url_for('empresa_page.atualizar', id=empresa.idempresa) }}" class="btn btn-outline-warning btn-xs" title="Editar">
                                         <img src="{{ url_for('static', filename='images/edit2.png') }}" width="30" height="28">
                                     </a>
-                                    <a href="{{ url_for('licenca_page.listalicencas', id=empresa.idempresa) }}" class="btn btn-outline-info btn-xs" title="Licenças">
+                                    <a href="{{ url_for('licenca_page.listarlicencas', id=empresa.idempresa) }}" class="btn btn-outline-info btn-xs" title="Licenças">
                                         <img src="{{ url_for('static', filename='images/diploma1.png') }}" width="30" height="28">
                                     </a>
                                     <a href="{{ url_for('empresa_page.excluir', id=empresa.idempresa) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
@@ -208,7 +208,11 @@
     </div>
     <div class="form-row align-itens-center ml-3">
         <div class="col-md-6">
-            <h3>Exibindo de {{ start }} a {{ end }} empresas. Total {{ pagination.total }} Empresas</h3>
+            {% if pagination.total == 0 %}
+            <h3>Nenhuma empresa cadastrada</h3>
+            {% else %}
+            <h3>Exibindo de {{ start }} a {{ end }} Empresas. Total {{ pagination.total }} Empresas</h3>
+            {% endif %}
         </div>
         <div class="col-md-4">
             {{ pagination.links }}

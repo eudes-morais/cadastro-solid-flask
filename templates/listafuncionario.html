@@ -31,7 +31,7 @@
     </div>
     <div class="inner">
         <div class="row">
-            <div class="col md-12">
+            <div class="col ml-3 mr-3">
                 <div class="jumbotron p-3">
                     <button type="button" class="btn btn-success mb-3 float-right" data-toggle="modal"
                         data-target="#mymodal">Novo Funcionário</button>
@@ -252,12 +252,16 @@
         <!-- Feito com o Form-row, pois o justify-content não funciona no IE -->
         <div class="form-row align-itens-center ml-3">
             <div class="col-md-6">
+                {% if pagination.total == 0 %}
+                <h3>Nenhum funcionário cadastrado</h3>
+                {% else %}
                 <h3>Exibindo de {{ start }} a {{ end }} Funcionários. Total {{ pagination.total }} Funcionários</h3>
+                {% endif %}
             </div>
             <div class="col-md-4">
                 {{ pagination.links }}
             </div>
-            <div class="col-md-2">
+            <div class="col-mr-2">
                 <a href="{{ url_for('index_page.index') }}" class="btn btn-primary">Voltar</a>
             </div>    
         </div>

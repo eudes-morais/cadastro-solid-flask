@@ -54,6 +54,6 @@ app.register_blueprint(index_page)
 # Executar este arquivo no Flask como sendo MAIN, evita-se digitar RUN no prompt de comando
 if __name__ == "__main__":
     # app.run(host='192.168.100.190', debug=False) # Para se testar dentro da empresa
-    # app.run(host='192.168.0.105', debug=True) # Para se testar dentro da empresa
+    # app.run(host='192.168.0.102', debug=True) # Para se testar dentro da empresa
     # app.run(host='192.168.100.6', debug=False)
     app.run(debug=True)
