@@ -72,17 +72,14 @@
                 {% endfor %}
             </select>
             <br>
-            <button type="submit" class="btn btn-outline-secondary btn-block">Atualizar atividades e produtos</button>
+            <div class="form-row justify-content-between ml-3 mb-2">
+                <button class="btn btn-primary" type="submit">Adicionar Atividades/Produtos</button>
+                <div class="col-md-2">
+                    <a href="{{ url_for('licenca_page.listarlicencas', id=empresa.idempresa) }}" class="btn btn-secondary">Cancelar/Voltar</a>
+                </div>    
+            </div>
         </form>
         <script src="/static/js/lista_dupla.js"></script>
     </div>
 </body>
-<footer>
-    <!-- Feito com o Form-row, pois o justify-content não funciona no IE -->
-    <div class="form-row align-itens-center ml-3 mt-2">
-        <div class="col-md-2">
-            <a href="{{ url_for('licenca_page.listalicencas', id=empresa.idempresa) }}" class="btn btn-primary">Voltar</a>
-        </div>    
-    </div>
-</footer>
 </html>

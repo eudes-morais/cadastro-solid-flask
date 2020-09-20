@@ -48,12 +48,17 @@
                             </select>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
+                                <label>Número da Licença</label>
+                                <input type="text" class="form-control" id="numerolicenca" name="numerolicenca" 
+                                    value="{{licenca.numerolicenca}}"/>
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>Data inicial da validade</label>
                                 <input type="text" class="form-control" id="datainicial" name="datainicial" 
                                     value="{{licenca.datainicial.strftime('%d/%m/%Y')}}"/>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>Data final da validade</label>
                                 <input type="text" class="form-control" id="datafinal" name="datafinal"
                                     value="{{licenca.datafinal.strftime('%d/%m/%Y')}}"/>
@@ -66,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit">Atualizar</button>
-                            <a href="{{ url_for('licenca_page.listalicencas', id=empresa.idempresa) }}" class="btn btn-secondary float-right">Voltar</a>
+                            <a href="{{ url_for('licenca_page.listarlicencas', id=empresa.idempresa) }}" class="btn btn-secondary float-right">Voltar</a>
                         </div>
                     </form>
                 </div>

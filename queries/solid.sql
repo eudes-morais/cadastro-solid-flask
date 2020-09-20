@@ -83,6 +83,7 @@ CREATE TABLE EnderecoFuncionario (
 
 CREATE TABLE Licenca (
     idLicenca serial PRIMARY KEY,
+    numeroLicenca varchar(20),
     dataInicial date,
     dataFinal date,
     valorLicenca float,
@@ -91,9 +92,7 @@ CREATE TABLE Licenca (
     produto_id integer[],
     atividade_id integer[],
     FOREIGN KEY (orgao_id) REFERENCES OrgaoResponsavel(idOrgao),
-    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa),
-    FOREIGN KEY (produto_id) REFERENCES Produto(idProduto),
-    FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
+    FOREIGN KEY (empresa_id) REFERENCES Empresa(idEmpresa)
 );
 
 CREATE TABLE Produto (
@@ -105,12 +104,6 @@ CREATE TABLE Produto (
     unidadeMedida varchar(12)
 );
 
--- CREATE TABLE Atividade (
---     idAtividade serial PRIMARY KEY,
---     descricao varchar(150),
---     licenca_id int,
---     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca)
--- );
 CREATE TABLE Atividade (
     idAtividade serial PRIMARY KEY,
     descricao varchar(150)
@@ -122,22 +115,6 @@ CREATE TABLE Estado (
     sigla varchar(2),
     nome varchar(20)
 );
-
--- CREATE TABLE LicencaAtividade (
---     licenca_id int NOT NULL,
---     atividade_id int NOT NULL,
---     PRIMARY KEY (licenca_id, atividade_id),
---     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
---     FOREIGN KEY (atividade_id) REFERENCES Atividade(idAtividade)
--- );
-
--- CREATE TABLE LicencaProduto (
---     licenca_id int NOT NULL,
---     produto_id int NOT NULL,
---     PRIMARY KEY (licenca_id, produto_id),
---     FOREIGN KEY (licenca_id) REFERENCES Licenca(idLicenca) ON DELETE CASCADE,
---     FOREIGN KEY (produto_id) REFERENCES Produto(idProduto)
--- );
 
 -- Garantindo TODOS os privilégios para TODAS as tabelas
 GRANT ALL ON SEQUENCE public.atividade_idatividade_seq TO solid;
@@ -179,7 +156,3 @@ GRANT ALL ON TABLE public.orgaoresponsavel TO solid;
 GRANT ALL ON TABLE public.produto TO solid;
 
 GRANT ALL ON TABLE public.estado TO solid;
-
--- GRANT ALL ON TABLE public.licencaatividade TO solid;
-
--- GRANT ALL ON TABLE public.licencaproduto TO solid;

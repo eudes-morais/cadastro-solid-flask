@@ -7,6 +7,7 @@ from app import db
 class Licenca(db.Model):
     __tablename__ = 'licenca'
     idlicenca = db.Column(db.Integer, primary_key=True)
+    numerolicenca = db.Column(db.String(20))
     datainicial = db.Column(db.DateTime)
     datafinal = db.Column(db.DateTime)
     valorlicenca = db.Column(db.Float)
@@ -19,7 +20,8 @@ class Licenca(db.Model):
     # If you would want to have a one-to-one relationship you can pass uselist=False to relationship()
     
     # Método construtor
-    def __init__(self, datainicial, datafinal, valorlicenca, orgao_id, empresa_id, produto_id, atividade_id):
+    def __init__(self, numerolicenca, datainicial, datafinal, valorlicenca, orgao_id, empresa_id, produto_id, atividade_id):
+        self.numerolicenca = numerolicenca
         self.datainicial = datainicial
         self.datafinal = datafinal
         self.valorlicenca = valorlicenca

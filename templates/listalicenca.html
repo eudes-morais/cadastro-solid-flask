@@ -48,17 +48,19 @@
                 
                     <table class="table table-hover table-sm table-dark">
                         <tr>
-                            <th style="text-align:center" width="750">Órgão Responsável</th>
-                            <th style="text-align:center" width="150">Validade</th>
-                            <th style="text-align:center" width="200">Valor</th>
+                            <th style="text-align:center" width="150">Número da Licença</th>
+                            <th style="text-align:center" width="650">Órgão Responsável</th>
+                            <th style="text-align:center" width="250">Validade</th>
+                            <th style="text-align:center" width="300">Valor</th>
                             <th> </th>
                         </tr>
                         {% for licenca in licencas %}
                         <tr>
+                            <td>{{ licenca.numerolicenca }}</td>
                             {% for orgao in orgaos %}
-                                {% if orgao.idorgao == licenca.orgao_id %}
-                                <td>{{ orgao.nomeorgao }}</td>
-                                {% endif %}
+                            {% if orgao.idorgao == licenca.orgao_id %}
+                            <td align="center">{{ orgao.nomeorgao }}</td>
+                            {% endif %}
                             {% endfor %}
                             <td hidden>{{ licenca.idlicenca }}</td>
                             <td align="center">{{ licenca.datafinal.strftime('%d/%m/%Y') }}</td>
@@ -80,7 +82,7 @@
                         {% endfor %}
                     </table>
 
-                    <!-- Modal Adicionar Licença -->
+                    <!-- Modal Adicionar Nova Licença -->
                     <div id="mymodal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -100,18 +102,24 @@
                                             </select>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label>Data inicial da validade</label>
-                                                <input type="text" class="form-control" id="datainicial" name="datainicial" />
+                                            <div class="form-group col-md-6">
+                                                <label>Número da Licença</label>
+                                                <input type="text" class="form-control" id="numerolicenca" name="numerolicenca" />
                                             </div>
-                                            <div class="form-group col-md-4">
-                                                <label>Data final da validade</label>
-                                                <input type="text" class="form-control" id="datafinal" name="datafinal" />
-                                            </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-6">
                                                 <label>Valor da licença</label>
                                                 <input type="text" class="form-control" name="valorlicenca" />
                                             </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Data inicial da validade</label>
+                                                <input type="text" class="form-control" id="datainicial" name="datainicial" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Data final da validade</label>
+                                                <input type="text" class="form-control" id="datafinal" name="datafinal" />
+                                            </div>                                           
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary" type="submit">Adicionar</button>

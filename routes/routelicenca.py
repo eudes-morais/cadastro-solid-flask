@@ -19,6 +19,7 @@ licenca_page = Blueprint('licenca_page', __name__, template_folder='routes')
 @licenca_page.route("/cadastrolicenca", methods=['GET', 'POST'])
 def cadastrolicenca():
     if request.method == 'POST':
+        numerolicenca = request.form.get("numerolicenca") 
         datainicial = datetime.strptime(request.form.get("datainicial"), '%d/%m/%Y')
         datafinal = datetime.strptime(request.form.get("datafinal"),'%d/%m/%Y')
         valorlicenca = request.form.get("valorlicenca")
@@ -31,7 +32,7 @@ def cadastrolicenca():
         atividade_id = []
         
         # Construtor da classe LICENÇA
-        licenca = Licenca(datainicial, datafinal, valorlicenca, orgao_id, empresa_id, produto_id, atividade_id)
+        licenca = Licenca(numerolicenca, datainicial, datafinal, valorlicenca, orgao_id, empresa_id, produto_id, atividade_id)
         db.session.add(licenca)
         db.session.commit()
         
@@ -85,7 +86,8 @@ def atualizarlicenca(id):
     orgaos = Orgao.query.all()
     
     if (request.method == 'POST'):
-        # Convertendo 
+        numerolicenca = request.form.get("numerolicenca") 
+        # Convertendo STRING em DATA
         datainicial = datetime.strptime(request.form.get("datainicial"), '%d/%m/%Y')
         datafinal = datetime.strptime(request.form.get("datafinal"),'%d/%m/%Y')
         valorlicenca = request.form.get("valorlicenca")
@@ -94,6 +96,7 @@ def atualizarlicenca(id):
         orgao_id = request.form.get("orgaoresponsavel")
        
         # Atualizando no BD as informações da LICENÇA (exceto as ATIVIDADES, EMPRESAS e os PRODUTOS)
+        licenca.numerolicenca = numerolicenca
         licenca.datainicial = datainicial
         licenca.datafinal = datafinal
         licenca.valorlicenca = valorlicenca
