@@ -14,6 +14,8 @@ class Empresa(db.Model):
     cnae_id = db.Column(db.Integer)
     telefone1 = db.Column(db.String(15))
     telefone2 = db.Column(db.String(15))
+    # O mapeamento abaixo, permite fazer um ONDELETE CASCADE na tabela LICENÇA
+    licencas = db.relationship("Licenca", cascade="all, delete")
 
     # Método construtor
     def __init__(self, numeropasta, razaosocial, inscricaoestadual, cnpj, caixapostal, email, cnae_id,
