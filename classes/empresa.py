@@ -14,8 +14,7 @@ class Empresa(db.Model):
     cnae_id = db.Column(db.Integer)
     telefone1 = db.Column(db.String(15))
     telefone2 = db.Column(db.String(15))
-    # O relacionamento abaixo deleta as LICENÇAS relativas à empresa DELETADA
-    # ON DELETE CASCADE
+    # O mapeamento abaixo permite que seja executado a operação de ON DELETE CASCADE na tabela LICENCA
     licencas = db.relationship('Licenca', cascade='all, delete', backref='empresa')
 
     # Método construtor
