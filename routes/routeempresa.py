@@ -20,10 +20,10 @@ empresa_page = Blueprint('empresa_page', __name__, template_folder='routes')
 def cadastro():
     if request.method == 'POST':
         numeropasta = request.form.get("numeropasta")
-        razaoSocial = request.form.get("razaosocial")
-        inscEst = request.form.get("inscricaoestadual")
+        razaosocial = request.form.get("razaosocial")
+        inscest = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
-        cxPostal = request.form.get("caixapostal")
+        cxpostal = request.form.get("caixapostal")
         email = request.form.get("email")
         cnae_id = str(request.form.get("cnae"))
         telefone1 = request.form.get("telefone1")
@@ -36,7 +36,7 @@ def cadastro():
         cep = str(request.form.get("cep"))
         
         # Construtor da classe EMPRESA
-        empresa = Empresa(numeropasta, razaoSocial, inscEst, cnpj, cxPostal, email, cnae_id, telefone1, telefone2)
+        empresa = Empresa(numeropasta, razaosocial, inscest, cnpj, cxpostal, email, cnae_id, telefone1, telefone2)
         db.session.add(empresa)
         # O comando abaixo força a criação do ID no BD
         db.session.flush()
@@ -69,9 +69,9 @@ def listar():
     start = (page - 1) * limit
     end = page * limit if len(empresas) > page * limit else len(empresas)
     paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4')
-    pageEmpresas = Empresa.query.order_by(Empresa.numeropasta).slice(start, end)
+    pageempresas = Empresa.query.order_by(Empresa.numeropasta).slice(start, end)
     # pagination = Pagination(page=page, total=len(empresas), per_page=per_page, css_framework='bootstrap4')
-    return render_template("lista.html", empresas = pageEmpresas, cnae = cnae, start=start + 1, end=end,
+    return render_template("lista.html", empresas = pageempresas, cnae = cnae, start=start + 1, end=end,
                             enderecoempresa = enderecoempresa, pagination=paginate)
 
 # Rota para exclusão de uma EMPRESA existente
@@ -79,7 +79,7 @@ def listar():
 def excluir(id):
     empresa = Empresa.query.get(id)
     idenderecoempresa = empresa.idempresa
-    enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
+    enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=idenderecoempresa).first()
     
     db.session.delete(enderecoempresa)
     db.session.commit()
@@ -101,14 +101,14 @@ def atualizar(id):
     cnae = classes.cnae.Cnae.query.all()
     empresa = Empresa.query.get(id)
     idenderecoempresa = empresa.idempresa
-    enderecoempresa = EnderecoEmpresa.query.get(idenderecoempresa)
+    enderecoempresa = EnderecoEmpresa.query.filter_by(empresa_id=idenderecoempresa).first()
 
     if (request.method == 'POST'):
         numeropasta = request.form.get("numeropasta")
-        razaoSocial = request.form.get("razaosocial")
+        razaosocial = request.form.get("razaosocial")
         inscestadual = request.form.get("inscricaoestadual")
         cnpj = request.form.get("cnpj")
-        cxPostal = request.form.get("caixapostal")
+        cxpostal = request.form.get("caixapostal")
         email = request.form.get("email")
         cnae = request.form.get("cnae")
         telefone1 = request.form.get("telefone1")
@@ -123,10 +123,10 @@ def atualizar(id):
         # Aqui pode ser criada uma validação para verificar se algo foi digitado para ser gravado no BD
         # Atualizando no BD as informações da empresa
         empresa.numeropasta = numeropasta
-        empresa.razaosocial = razaoSocial
+        empresa.razaosocial = razaosocial
         empresa.inscricaoestadual = inscestadual
         empresa.cnpj = cnpj
-        empresa.caixapostal = cxPostal
+        empresa.caixapostal = cxpostal
         empresa.email = email
         empresa.cnae_id = cnae
         empresa.telefone1 = telefone1

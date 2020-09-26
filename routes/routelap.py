@@ -39,16 +39,16 @@ def atualizalap(id):
     atividades = Atividade.query.all()
 
     if (request.method == 'POST'):
-        listaAtividades = []
-        listaProdutos = []
+        listaatividades = []
+        listaprodutos = []
         # Conversão de uma lista de string para uma lista de inteiro
         # Extraído de https://www.geeksforgeeks.org/python-converting-all-strings-in-list-to-integers/
-        listaAtividades = [int(i) for i in request.form.getlist("duallistbox_atividades[]")]
-        listaProdutos = [int(i) for i in request.form.getlist("duallistbox_produtos[]")]
+        listaatividades = [int(i) for i in request.form.getlist("duallistbox_atividades[]")]
+        listaprodutos = [int(i) for i in request.form.getlist("duallistbox_produtos[]")]
         empresa_id = request.form.get("empresaid")
 
-        licenca.atividade_id = listaAtividades
-        licenca.produto_id = listaProdutos
+        licenca.atividade_id = listaatividades
+        licenca.produto_id = listaprodutos
 
         # Commit na tabela LICENÇA
         db.session.commit()
@@ -58,6 +58,6 @@ def atualizalap(id):
 
         flash(mensagem, alerta)
         
-        return redirect(url_for("licenca_page.listalicencas", id=empresa_id))
+        return redirect(url_for("licenca_page.listarlicencas", id=empresa_id))
     
     return render_template("listalap.html", licenca = licenca, produtos = produtos, atividades = atividades)

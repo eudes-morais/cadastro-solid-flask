@@ -6,6 +6,7 @@ from flask_paginate import Pagination
 from classes.empresa import Empresa
 from classes.orgao import Orgao
 from classes.licenca import Licenca
+from classes.atividade import Atividade
 from app import db
 
 #-------------------------------------------------------------------------------
@@ -51,7 +52,8 @@ def listarlicencas(id):
     empresa = Empresa.query.get(id)
     idempresa = empresa.idempresa
     orgaos = Orgao.query.all()
-    licencas = Licenca.query.filter(Licenca.empresa_id == idempresa).all()
+    licencas = Licenca.query.filter(Licenca.empresa_id == idempresa).order_by(Licenca.idlicenca).all()
+    atividades = Atividade.query.all()
     
     page = int(request.args.get("page", 1))
     start = (page - 1) * limit
@@ -59,7 +61,7 @@ def listarlicencas(id):
     paginate = Pagination(page=page, total=len(licencas), css_framework='bootstrap4')
     pageLicencas = Licenca.query.order_by(Licenca.orgao_id).slice(start, end)
     return render_template("listalicenca.html", empresa = empresa, orgaos = orgaos, start=start + 1, end=end,
-                            licencas = licencas, pagination=paginate)
+                            licencas = licencas, pagination=paginate, atividades = atividades)
 
 # Rota para exclusão de uma LICENÇA existente
 @licenca_page.route("/excluirlicenca/<int:id>", methods = ['GET', 'POST'])
@@ -84,6 +86,7 @@ def atualizarlicenca(id):
     licenca = Licenca.query.get(id)
     empresa = Empresa.query.get(licenca.empresa_id)
     orgaos = Orgao.query.all()
+    atividades = Atividade.query.all()
     
     if (request.method == 'POST'):
         numerolicenca = request.form.get("numerolicenca") 
@@ -112,4 +115,5 @@ def atualizarlicenca(id):
         
         return redirect(url_for("licenca_page.listarlicencas"))
     
-    return render_template("atualizalicenca.html", licenca = licenca, empresa = empresa, orgaos = orgaos)
+    return render_template("atualizalicenca.html", licenca = licenca, empresa = empresa, orgaos = orgaos,
+                                atividades=atividades)

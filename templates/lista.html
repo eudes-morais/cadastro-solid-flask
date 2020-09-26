@@ -77,10 +77,10 @@
                         <tbody id="myTable">
                             <tr>
                                 <td>{{ empresa.numeropasta }}</td>
-                                <td>{{ empresa.razaosocial }}</td>
+                                <td align="center">{{ empresa.razaosocial }}</td>
                                 <td align="center">{{ empresa.inscricaoestadual }}</td>
                                 <td align="center">{{ empresa.cnpj }}</td>
-                                <td>{{ empresa.email }}</td>
+                                <td align="center">{{ empresa.email }}</td>
                                 {% for c in cnae %}
                                     {% if c.idcnae == empresa.cnae_id %}
                                         <td>{{ c.descricao }}</td>
@@ -191,15 +191,14 @@
                                     </div>
                                     
                                     <script src="/static/js/preenche_endereco.js"></script>
-
+                                    <hr>
                                     <div class="form-group">
                                         <button class="btn btn-primary" type="submit">Adicionar</button>
+                                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Cancelar</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

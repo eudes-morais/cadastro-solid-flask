@@ -49,20 +49,30 @@
                     <table class="table table-hover table-sm table-dark">
                         <tr>
                             <th style="text-align:center" width="150">Número da Licença</th>
-                            <th style="text-align:center" width="650">Órgão Responsável</th>
-                            <th style="text-align:center" width="250">Validade</th>
-                            <th style="text-align:center" width="300">Valor</th>
+                            <th style="text-align:center" width="450">Órgão Responsável</th>
+                            <th style="text-align:center" width="250">Atividade</th>
+                            <th style="text-align:center" width="200">Validade</th>
+                            <th style="text-align:center" width="100">Valor</th>
                             <th> </th>
                         </tr>
                         {% for licenca in licencas %}
                         <tr>
+                            <td hidden>{{ licenca.idlicenca }}</td>
                             <td>{{ licenca.numerolicenca }}</td>
                             {% for orgao in orgaos %}
                             {% if orgao.idorgao == licenca.orgao_id %}
                             <td align="center">{{ orgao.nomeorgao }}</td>
                             {% endif %}
                             {% endfor %}
-                            <td hidden>{{ licenca.idlicenca }}</td>
+                            {% set listaatividade = [] %}
+                            {% for latividade in licenca.atividade_id %}
+                                {% for atividade in atividades %}
+                                {% if atividade.idatividade == latividade %}
+                                <td hidden>{{ listaatividade.append(atividade.descricao) }}</td>
+                                {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <td align="center">{{ listaatividade|join(', ') }}</td>
                             <td align="center">{{ licenca.datafinal.strftime('%d/%m/%Y') }}</td>
                             <td align="center">{{ "{:.2f}".format(licenca.valorlicenca).replace('.', ',') }}</td>
                             <td>
@@ -74,7 +84,7 @@
                                     <img src="{{ url_for('static', filename='images/lab1.png') }}" width="30" height="28">
                                 </a>
                                 <a href="{{ url_for('licenca_page.excluirlicenca', id=licenca.idlicenca) }}" class="btn btn-outline-danger btn-xs" title="Excluir"
-                                    onclick="return confirm('Deseja realmente excluir essa licença?')">
+                                    onclick="return confirm('Deseja realmente excluir a licença {{licenca.numerolicenca}}?')">
                                     <img src="{{ url_for('static', filename='images/delete5.png') }}" width="30" height="28">
                                 </a>
                             </td>

@@ -7,7 +7,7 @@ from flask_paginate import Pagination
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.1:5432/solid"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.2:5432/solid"
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@192.168.0.105:5432/solid"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
