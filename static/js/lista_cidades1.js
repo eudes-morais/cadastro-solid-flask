@@ -1,4 +1,4 @@
-$('#estado1')
+$('#ufnascimento')
     .click(function(){
         $.ajax({
             // type:'GET',
@@ -12,6 +12,6 @@ $('#estado1')
                 cidades+='<option value="'+cidade.nome+'">'+cidade.nome+'</option>';
             });
             // PREENCHE AS CIDADES DE ACORDO COM O ESTADO
-            $('#municipio1').html(cidades);
+            $('#municipionascimento').html(cidades);
         });
     });

@@ -12,8 +12,8 @@ class Funcionario(db.Model):
     orgaoexpedidor = db.Column(db.String(11))
     grauinstrucao = db.Column(db.String(25))
     nacionalidade = db.Column(db.String(40))
-    estado = db.Column(db.String(20))
-    municipio = db.Column(db.String(100))
+    ufnascimento = db.Column(db.String(20))
+    municipionascimento = db.Column(db.String(100))
     datanascimento = db.Column(db.DateTime)
     estadocivil = db.Column(db.String(13))
     profissao = db.Column(db.String(50))
@@ -27,8 +27,8 @@ class Funcionario(db.Model):
     empresasfunc = db.relationship('Empresa', backref='funcionarios', uselist=False)
 
     # Método construtor
-    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, estado,
-                    municipio, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo,
+    def __init__(self, nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade, ufnascimento,
+                    municipionascimento, datanascimento, estadocivil, profissao, nomepai, nomemae, email, cargo,
                     telefone1, telefone2, empresafunc_id):
         self.nomefuncionario = nomefuncionario
         self.cpf = cpf
@@ -36,8 +36,8 @@ class Funcionario(db.Model):
         self.orgaoexpedidor = orgaoexpedidor
         self.grauinstrucao = grauinstrucao
         self.nacionalidade = nacionalidade
-        self.estado = estado
-        self.municipio = municipio
+        self.ufnascimento = ufnascimento
+        self.municipionascimento = municipionascimento
         self.datanascimento = datanascimento
         self.estadocivil = estadocivil
         self.profissao = profissao

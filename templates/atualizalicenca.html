@@ -33,8 +33,9 @@
         <div class="row">
             <div class="col md-8">
                 <div class="jumbotron p-3">
-                    <form action="{{ url_for('licenca_page.cadastrolicenca') }}" method="POST">
+                    <form action="{{ url_for('licenca_page.atualizarlicenca', id=licenca.idlicenca) }}" method="POST">
                         <input type="hidden" name="empresaid" value="{{empresa.idempresa}}">
+                        <input type="hidden" name="licencaid" value="{{licenca.idlicenca}}">
                         <div class="form-group">
                             <label for="formControlOrgao">Órgão Responsável</label>
                             <select class="form-control" name="orgaoresponsavel" id="formControlOrgao">
@@ -71,7 +72,7 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit">Atualizar</button>
-                            <a href="{{ url_for('licenca_page.listarlicencas', id=empresa.idempresa) }}" class="btn btn-secondary float-right">Voltar</a>
+                            <a href="{{ url_for('licenca_page.atualizarlicenca', id=licenca.idlicenca) }}" class="btn btn-secondary float-right">Voltar</a>
                         </div>
                     </form>
                 </div>

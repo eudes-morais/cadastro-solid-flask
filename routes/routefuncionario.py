@@ -37,16 +37,16 @@ def cadastroFuncionario():
         logradouro = request.form.get("logradouro1")
         complemento = request.form.get("complemento1")
         bairro = request.form.get("bairro1")
-        uf = request.form.get("uf1")
+        ufnascimento = request.form.get("ufnascimento")
         cidade = request.form.get("cidade1")
-        municipio = request.form.get("municipio1")
+        municipionascimento = request.form.get("municipionascimento")
         estado = request.form.get("estado1")
         cep = str(request.form.get("cep1"))
 
         # Aqui pode ser criada uma validação para verificar 
         # se algo foi digitado para ser gravado no BD
         funcionario = Funcionario(nomefuncionario, cpf, rg, orgaoexpedidor, grauinstrucao, nacionalidade,
-                                    estado, municipio, datanascimento, estadocivil, profissao, nomepai,
+                                    ufnascimento, municipionascimento, datanascimento, estadocivil, profissao, nomepai,
                                     nomemae, email, cargo, telefone1, telefone2, empresafunc_id)
         db.session.add(funcionario)
 
@@ -54,7 +54,7 @@ def cadastroFuncionario():
         db.session.flush()
 
         funcionario_id = funcionario.idfuncionario
-        enderecofuncionario = EnderecoFuncionario(logradouro, complemento, bairro, cidade, uf, cep, funcionario_id)
+        enderecofuncionario = EnderecoFuncionario(logradouro, complemento, bairro, cidade, estado, cep, funcionario_id)
 
         db.session.add(enderecofuncionario)
         db.session.commit()
@@ -112,7 +112,7 @@ def atualizarFuncionario(id):
         nomefuncionario = request.form.get("nomefuncionario")
         nacionalidade = request.form.get("nacionalidade")
         municipio = request.form.get("municipio")
-        uf = request.form.get("uf")
+        estado = request.form.get("estado")
         cpf = str(request.form.get("cpf"))
         rg = str(request.form.get("identidade"))
         orgaoexpedidor = request.form.get("orgaoexpedidor")
@@ -129,9 +129,9 @@ def atualizarFuncionario(id):
         logradouro = request.form.get("logradouro")
         complemento = request.form.get("complemento")
         bairro = request.form.get("bairro")
-        municipio = request.form.get("municipio")
-        uf = request.form.get("uf")
-        estado = request.form.get("estado")
+        municipionascimento = request.form.get("municipionascimento")
+        ufnascimento = request.form.get("ufnascimento")
+        estado = request.form.get("uf")
         cidade = request.form.get("cidade")
         cep = str(request.form.get("cep"))
     
@@ -143,8 +143,8 @@ def atualizarFuncionario(id):
         funcionario.rg = rg
         funcionario.orgaoexpedidor = orgaoexpedidor
         funcionario.nacionalidade = nacionalidade
-        funcionario.estado = estado
-        funcionario.municipio = municipio
+        funcionario.ufnascimento = ufnascimento
+        funcionario.municipionascimento = municipionascimento
         funcionario.grauintrucao = grauinstrucao
         funcionario.datanascimento = datanascimento
         funcionario.estadocivil = estadocivil
@@ -164,7 +164,7 @@ def atualizarFuncionario(id):
         enderecofuncionario.logradouro = logradouro
         enderecofuncionario.complemento = complemento
         enderecofuncionario.bairro = bairro
-        enderecofuncionario.estado = uf
+        enderecofuncionario.estado = estado
         enderecofuncionario.cidade = cidade
 
         # Commit na tabela ENDERECOEMPRESA

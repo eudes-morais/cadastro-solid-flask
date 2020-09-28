@@ -26,8 +26,8 @@ CREATE TABLE Funcionario (
     orgaoExpedidor varchar(11),
     grauInstrucao varchar(25),
     nacionalidade varchar(40),
-    uf varchar(100)
-    municipio varchar(100),
+    ufnascimento varchar(100),
+    municipionascimento varchar(100),
     dataNascimento date,
     estadoCivil varchar(10),
     profissao varchar(50),
@@ -38,7 +38,7 @@ CREATE TABLE Funcionario (
     telefone1 varchar(15),
     telefone2 varchar(15),
     estado varchar(20),
-    cidade varchar(100)
+    cidade varchar(100),
     empresafunc_id int,
     FOREIGN KEY (empresafunc_id) REFERENCES Empresa(idEmpresa)
 );

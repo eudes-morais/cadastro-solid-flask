@@ -118,11 +118,11 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-2">
-                                <label for="estado">Natural de</label>
-                                <select class="form-control" name="estado" id="estado">
+                                <label for="ufnascimento">Natural de</label>
+                                <select class="form-control" name="ufnascimento" id="ufnascimento">
                                     <option>-- Selecione um estado --</option>
                                     {% for estado in estados %}
-                                        {% if funcionario.estado == estado.codigo %}
+                                        {% if funcionario.ufnascimento == estado.codigo %}
                                         <option value="{{ estado.codigo }}" selected>{{ estado.nome }}</option>
                                         {% else %}
                                         <option value="{{ estado.codigo }}">{{ estado.nome }}</option>
@@ -131,12 +131,13 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="municipio">Cidade</label>
+                                <label for="municipionascimento">Cidade</label>
                                 <!-- <select class="form-control" name="municipio" id="municipio"></select> -->
-                                <input list="municipio" class="form-control" name="municipio" value="{{ funcionario.municipio }}" />
-                                <datalist id="municipio"></datalist>
+                                <input list="municipionascimento" class="form-control" name="municipionascimento" value="{{ funcionario.municipionascimento }}" />
+                                <datalist id="municipionascimento"></datalist>
                             </div>
-                            <script src="/static/js/lista_cidades.js"></script>
+                            <script src="/static/js/lista_cidades1.js"></script>
+
                             <div class="form-group col-md-2">
                                 <label>Telefone Principal</label>
                                 <input type="text" class="form-control" id="telefone1" 

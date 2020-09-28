@@ -89,6 +89,7 @@ def atualizarlicenca(id):
     atividades = Atividade.query.all()
     
     if (request.method == 'POST'):
+        idempresa = request.form.get("empresaid") 
         numerolicenca = request.form.get("numerolicenca") 
         # Convertendo STRING em DATA
         datainicial = datetime.strptime(request.form.get("datainicial"), '%d/%m/%Y')
@@ -113,7 +114,7 @@ def atualizarlicenca(id):
 
         flash(mensagem, alerta)
         
-        return redirect(url_for("licenca_page.listarlicencas"))
+        return redirect(url_for("licenca_page.listarlicencas", id=idempresa))
     
     return render_template("atualizalicenca.html", licenca = licenca, empresa = empresa, orgaos = orgaos,
                                 atividades=atividades)
