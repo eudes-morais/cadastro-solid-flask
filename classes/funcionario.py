@@ -12,7 +12,7 @@ class Funcionario(db.Model):
     orgaoexpedidor = db.Column(db.String(11))
     grauinstrucao = db.Column(db.String(25))
     nacionalidade = db.Column(db.String(40))
-    ufnascimento = db.Column(db.String(20))
+    ufnascimento = db.Column(db.Integer)
     municipionascimento = db.Column(db.String(100))
     datanascimento = db.Column(db.DateTime)
     estadocivil = db.Column(db.String(13))

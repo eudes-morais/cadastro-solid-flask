@@ -58,12 +58,12 @@
                         </tr>
                         {% for funcionario in funcionarios %}
                         <tr>
+                            <td hidden>{{ funcionario.idfuncionario }}</td>
                             {% for empresa in empresas %}
                                 {% if empresa.idempresa == funcionario.empresafunc_id %}
                                 <td>{{ empresa.razaosocial }}</td>
                                 {% endif %}
                             {% endfor %}
-                            <td hidden>{{ funcionario.idfuncionario }}</td>
                             <td>{{ funcionario.nomefuncionario}}</td>
                             <td align="center">{{ funcionario.cpf }}</td>
                             <td align="center">{{ funcionario.telefone1 }}</td>
@@ -108,7 +108,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-5">
                                                 <label>CPF</label>
-                                                <input type="text" class="form-control" name="cpf" />
+                                                <input type="text" class="form-control" name="cpf" maxlength="11"/>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Identidade</label>

@@ -65,7 +65,8 @@ def cadastroFuncionario():
 @funcionario_page.route("/listafuncionarios")
 def listaFuncionarios():
     limit = 10
-    funcionarios = Funcionario.query.order_by(Funcionario.idfuncionario).all()
+    # funcionarios = Funcionario.query.order_by(Funcionario.idfuncionario).all()
+    funcionarios = Funcionario.query.all()
     empresas = Empresa.query.all()
     estados = Estado.query.all()
     enderecofuncionarios = EnderecoFuncionario.query.all()
@@ -74,7 +75,7 @@ def listaFuncionarios():
     start = (page - 1) * limit
     end = page * limit if len(funcionarios) > page * limit else len(funcionarios)
     paginate = Pagination(page=page, total=len(funcionarios), css_framework='bootstrap4')
-    pageFuncionarios = Funcionario.query.slice(start, end)
+    pageFuncionarios = Funcionario.query.order_by(Funcionario.idfuncionario).slice(start, end)
     return render_template("listafuncionario.html", empresas = empresas, funcionarios = pageFuncionarios,
                             enderecofuncionarios =  enderecofuncionarios, estados = estados,
                             start=start + 1, end=end, pagination=paginate)
@@ -122,7 +123,7 @@ def atualizarFuncionario(id):
         profissao = request.form.get("profissao")
         nomepai = request.form.get("nomepai")
         nomemae = request.form.get("nomemae")
-        email = request.form.get("email")
+        email = request.form.get("emailfuncionario")
         cargo = request.form.get("cargo")
         telefone1 = request.form.get("telefone1")
         telefone2 = request.form.get("telefone2")

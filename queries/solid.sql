@@ -26,7 +26,7 @@ CREATE TABLE Funcionario (
     orgaoExpedidor varchar(11),
     grauInstrucao varchar(25),
     nacionalidade varchar(40),
-    ufnascimento varchar(100),
+    ufnascimento integer,
     municipionascimento varchar(100),
     dataNascimento date,
     estadoCivil varchar(10),

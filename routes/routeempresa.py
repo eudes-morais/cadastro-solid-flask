@@ -2,7 +2,6 @@ from flask import render_template, url_for, redirect, flash, request
 from flask import Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_paginate import Pagination
-# from classes.cnae import *
 from classes.empresa import Empresa
 from classes.enderecoempresa import EnderecoEmpresa
 import classes.cnae
@@ -70,7 +69,6 @@ def listar():
     end = page * limit if len(empresas) > page * limit else len(empresas)
     paginate = Pagination(page=page, total=len(empresas), css_framework='bootstrap4')
     pageempresas = Empresa.query.order_by(Empresa.numeropasta).slice(start, end)
-    # pagination = Pagination(page=page, total=len(empresas), per_page=per_page, css_framework='bootstrap4')
     return render_template("lista.html", empresas = pageempresas, cnae = cnae, start=start + 1, end=end,
                             enderecoempresa = enderecoempresa, pagination=paginate)
 
