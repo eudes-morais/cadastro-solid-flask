@@ -8,7 +8,18 @@ from flask_paginate import Pagination
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@172.17.0.2:5432/solid"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@192.168.0.105:5432/solid"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://solid:solid@192.168.0.105:5432/solid"
+
+# Na configuração do SQLALCHEMY_DATABASE_URI teve que ser adicionada (após o schema do banco)
+# as variáveis SSLMODE, SSLROOTCERT, SSLCERT e SSLKEY
+# Também foi direcionado para fora do HD onde estava armazenado, pois ele não deixava
+# mudar as permissões do arquivo SSLKEY
+sqlalchemyuri = "postgresql://solid:solid@35.247.252.238:5432/solid?"
+sqlalchemyuri = sqlalchemyuri + "sslmode=verify-ca&"
+sqlalchemyuri = sqlalchemyuri + "sslrootcert=/home/eudes/certificados/server-ca.pem&"
+sqlalchemyuri = sqlalchemyuri + "sslcert=/home/eudes/certificados/client-cert.pem&"
+sqlalchemyuri = sqlalchemyuri + "sslkey=/home/eudes/certificados/client-key.pem"
+app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemyuri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
