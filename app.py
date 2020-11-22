@@ -2,8 +2,6 @@ import os
 import psycopg2
 from flask import Flask, render_template, request, url_for, redirect, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.exc import SQLAlchemyError
-# from flask_paginate import Pagination
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
