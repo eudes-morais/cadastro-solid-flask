@@ -2,8 +2,8 @@ import os
 import psycopg2
 from flask import Flask, render_template, request, url_for, redirect, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError
-from flask_paginate import Pagination
+# from sqlalchemy.exc import SQLAlchemyError
+# from flask_paginate import Pagination
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -33,7 +33,6 @@ from classes.licenca import Licenca
 # Os IMPORTS abaixo devem ficar depois do 'db = SQLAlchemy(app)', 
 # para que as classes possam ser iniciadas corretamente.
 #----------------------------------- IMPORTS -----------------------------------
-
 #-------------------------------------------------------------------------------
 #------------------------- Trabalhando com as rotas ----------------------------
 #-------------------------------------------------------------------------------
@@ -54,10 +53,6 @@ app.register_blueprint(empresa_page)
 
 from routes.routeindex import index_page
 app.register_blueprint(index_page)
-
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
 
 #-------------------------------------------------------------------------------
 #---------------------------- INICIALIZAÇÃO DO APP -----------------------------
